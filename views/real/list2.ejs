@@ -300,7 +300,8 @@
 <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
 <script type="text/javascript">
-  var socket = io("http://localhost:3001");
+  //var socket = io("http://localhost:3001");
+  var socket = io("http://124.158.10.133:3001");
   socket.on("AlarmText", function(data)
   {
     console.log(data);
@@ -336,6 +337,23 @@
       data.Value =  Math.round(parseFloat(data.Value) * 100)/100;
     }
     $("#"+data.TagName.replace('{', '_').replace('}','_')).html(data.Value);
+    
+    
+    // Math.round(n * 1000)/1000;
+  });
+
+  socket.on("dataReal", function(data)
+  {
+    console.log(data);
+    let T1 = parseFloat(data.T1);
+    let T2 = parseFloat(data.T2);
+    let T3 = parseFloat(data.T3);
+    let T4 = parseFloat(data.T4);
+
+    // if (parseFloat(data.Value) > 0) {
+    //   data.Value =  Math.round(parseFloat(data.Value) * 100)/100;
+    // }
+    // $("#"+data.TagName.replace('{', '_').replace('}','_')).html(data.Value);
     
     
     // Math.round(n * 1000)/1000;
