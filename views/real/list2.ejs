@@ -163,7 +163,7 @@
           </div>
         </div>
         <div class="box-footer clearfix">
-          Mức nước hiện tại là 54.53
+          Mức nước hiện tại là <span id="level1_value">0</span>
         </div>
       </div>
     </div>
@@ -180,7 +180,7 @@
           </div>
         </div>
         <div class="box-footer clearfix">
-          Mức nước hiện tại là 74.82
+          Mức nước hiện tại là <span id="level2_value">0</span>
         </div>
       </div>
     </div>
@@ -350,7 +350,7 @@
 
   socket.on("dataReal", function(data)
   {
-    console.log(data);
+    //console.log(data);
     intT1 = parseFloat(data.T1);
     intT2 = parseFloat(data.T2);
     intT3 = parseFloat(data.T3);
@@ -370,9 +370,12 @@
     // Update level
     if (parseFloat(data.B1) > 0) {
       gauge1.update(parseFloat(data.B1));
+      document.getElementById("level1_value").innerHTML = parseFloat(data.B1);
+
     }
     if (parseFloat(data.B2) > 0) {
       gauge2.update(parseFloat(data.B2));
+      document.getElementById("level2_value").innerHTML = parseFloat(data.B2);
     }
     
     // Math.round(n * 1000)/1000;
