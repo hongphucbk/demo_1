@@ -150,6 +150,7 @@ server.on('published',function getdata(packet,client) {
 	if(packet.topic =='PLC/Data') 
 	{
 		indexCount ++;
+		console.log("index count = " + indexCount)
 		let data = packet.payload.toString();
 		let data_json = JSON.parse(data)
 		let T1 = data_json.Temp_J
@@ -170,7 +171,7 @@ server.on('published',function getdata(packet,client) {
 			timestamp: new Date()
 		};
 
-		if (indexCount > 100 ) {
+		if (indexCount > 10 ) {
 			History.insertMany(saveData, function(err) {
 				if (err) return handleError(err);
 			});

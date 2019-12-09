@@ -11,6 +11,8 @@ var historySchema = new mongoose.Schema({
 	T9: Number,
 	T10: Number,
 	T11: Number,
+	B1: Number,
+	B2: Number,
 	PR: Number,
 	status: String,
 	timestamp: Date,
