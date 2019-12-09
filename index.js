@@ -106,6 +106,7 @@ server.on('ready', function(){
 var History = require('./models/history.model')
 
 //find when a message .is received
+let indexCount = 0;
 server.on('published',function getdata(packet,client) {
 	if(packet.topic =='monitor/svr_room') 
 	{
@@ -146,7 +147,7 @@ server.on('published',function getdata(packet,client) {
 	}
 
 	//Data Nha may Trong
-	let indexCount = 0;
+	
 	if(packet.topic =='PLC/Data') 
 	{
 		indexCount ++;
