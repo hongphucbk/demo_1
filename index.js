@@ -167,7 +167,7 @@ server.on('published',function getdata(packet,client) {
 			T4: T4,
 			B1: B1,
 			B1: B2,
-			timestamp: timestamp,
+			timestamp: new Date()
 		};
 
 		if (indexCount > 100 ) {
