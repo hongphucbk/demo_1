@@ -146,12 +146,40 @@ server.on('published',function getdata(packet,client) {
 	}
 
 	//Data Nha may Trong
+	let indexCount = 0;
 	if(packet.topic =='PLC/Data') 
 	{
+		indexCount ++;
 		let data = packet.payload.toString();
 		let data_json = JSON.parse(data)
-		console.log("Data nhan duoc la: " + data_json.Temp_J )
-		io.emit('data', data_json.TEST1);
+		let T1 = data_json.Temp_J
+		let T2 = data_json.Temp_G;
+		let T3 = data_json.Temp_Q;
+		let T4 = data_json.Temp_Aver;
+
+		let B1 = data_json.Humi_J;
+		let B2 = data_json.Humi_G;
+
+		let saveData = {
+			T1: T1,
+			T2: T2,
+			T3: T3,
+			T4: T4,
+			B1: B1,
+			B1: B2,
+			timestamp: timestamp,
+		};
+
+		if (indexCount > 100 ) {
+			History.insertMany(saveData, function(err) {
+				if (err) return handleError(err);
+			});
+
+			indexCount = 0;
+		}
+		
+		console.log("Data: " +  saveData)
+		io.emit('data', saveData);
 	}
 
 });
