@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>DK GAS</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/bootstrap-glyphicons.css" rel="stylesheet">
+    <link href="/css/css.css" rel="stylesheet">
+    
+    <%-stylesheets%>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.dev.js"></script>
+
+</head>
+<body style="background-color: rgb(98, 158, 158) !important">
+	<!-- Header -->
+	<% include header %>
+	<!-- End header	 -->
+	<div class="container-fluid main-container" style="background-color: rgb(98, 158, 158) !important">
+	  	<div class="col-md-2 sidebar">
+	  		<!-- Side bar -->
+	  		<% include sidebar %>
+	  		<!-- End sidebar -->
+		</div>
+	  	<div class="col-md-10 content">
+
+	  		<div class="panel panel-default">
+	  			<%-body -%>
+				
+			</div>
+	  	</div>
+		<!-- Footer -->
+		<% include footer %>
+		<!-- End footer -->
+	</div>
+	<script src="/js/jquery-1.11.1.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+	<script src="/js/js.js"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+	<script>
+		$(".alert").fadeTo(3000, 500).slideUp(500, function() {
+	      $(".alert").slideUp(200);
+	    });
+	</script>
+	<%-scripts%>
+</body>
+</html>

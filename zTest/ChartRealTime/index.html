@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>TEST</title>
+	<meta charset="utf-8">
+	<link rel="stylesheet" type="text/css" href="css/rickshaw.min.css">
+	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/rickshaw/1.6.3/rickshaw.min.css">
+	<link type="text/css" rel="stylesheet" href="css/graph.css">
+	<link type="text/css" rel="stylesheet" href="css/legend.css">
+	<link type="text/css" rel="stylesheet" href="css/lines.css">
+	<link type="text/css" rel="stylesheet" href="css/detail.css">
+	<style type="text/css">
+		body {
+		  padding: 20px;
+		}
+
+		#chart_container {
+		  position: relative;
+		  font-family: Arial, Helvetica, sans-serif;
+		}
+
+		#demo_chart {
+		  position: relative;
+		  left: 40px;
+		  background-color: white !important;
+		}
+
+		#y_axis {
+		  position: absolute;
+		  top: 0;
+		  bottom: 0;
+		  width: 40px;
+		}
+
+	</style>
+
+	<script type="text/javascript" src="js/jquery.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
+	<script type="text/javascript" src="js/d3.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.2.0/d3.js"></script>
+	<script type="text/javascript" src="js/rickshaw.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.15/jquery-ui.min.js"></script>
+	<!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/rickshaw/1.6.5/rickshaw.js"></script> -->
+</head>
+<body>
+	<div id="chart_container">
+	  <div id="y_axis"></div>
+	  <div id="demo_chart"></div>
+	</div>
+
+	<script type="text/javascript">
+		/* Rickshaw real-time data visualization (UNOPTIMIZED)*/
+
+		var updateInterval = 1000;
+
+		/* Rickshaw.js initialization */
+		var chart1 = new Rickshaw.Graph({
+		  element: document.querySelector("#demo_chart"),
+		  width: "800",
+		  height: "250",
+		  renderer: "line",
+		  min: "0",
+		  max: "100",
+		  series: new Rickshaw.Series.FixedDuration(
+		    [
+		      {
+		        name: "one",
+		        color: "#EC644B"
+		      }
+		    ],
+		    undefined,
+		    {
+		      timeInterval: updateInterval,
+		      maxDataPoints: 100
+		    }
+		  )
+		});
+
+		var legend = new Rickshaw.Graph.Legend({
+		    graph: chart1,
+		    element: document.querySelector('#demo_chart')
+		});
+
+		var shelving = new Rickshaw.Graph.Behavior.Series.Toggle({
+		    graph: chart1,
+		    legend: legend
+		});
+
+		var highlighter = new Rickshaw.Graph.Behavior.Series.Highlight({
+	    graph: chart1,
+	    legend: legend
+		});
+
+		var order = new Rickshaw.Graph.Behavior.Series.Order({
+		  graph: chart1,
+		  legend: legend
+		});
+
+		// var hoverDetail = new Rickshaw.Graph.HoverDetail( {
+		//     graph: chart1
+		// } );
+
+		// var hoverDetail = new Rickshaw.Graph.HoverDetail( {
+		//     graph: chart1,
+		//     xFormatter: function(x) { return x + "seconds" },
+		//     yFormatter: function(y) { return Math.floor(y) + " percent" }
+		// } );
+
+
+
+		var y_axis = new Rickshaw.Graph.Axis.Y({
+		  graph: chart1,
+		  orientation: "left",
+		  tickFormat: function(y) {
+		    return y.toFixed(2);
+		  },
+		  ticks: 5,
+		  element: document.getElementById("y_axis")
+		});
+
+		var time = new Rickshaw.Fixtures.Time();
+		var seconds = time.unit('second');
+
+		var ticksTreatment = 'glow';
+		var xAxis = new Rickshaw.Graph.Axis.Time({
+		    graph: chart1,
+		    //orientation: 'right',
+		    //timeUnit: seconds,
+		    ticksTreatment: ticksTreatment,
+				timeFixture: new Rickshaw.Fixtures.Time.Local()
+		});
+
+		xAxis.render();
+
+		var hoverDetail = new Rickshaw.Graph.HoverDetail( {
+			graph: chart1,
+			formatter: function(series, x, y) {
+				var date = '<span class="date">' + new Date(x * 1000).toString() + '</span>';
+				var swatch = '<span class="detail_swatch" style="background-color: ' + series.color + '"></span>';
+				var content = swatch + series.name + ": " + parseInt(y) + '<br>' + date;
+				return content;
+			},
+			xFormatter: function(x) {
+				return "<span style='color: blue'>" +  new Date(x * 1000).toString() + "</span";
+			}
+
+		});
+
+
+		/* Timer function that is called every @updateInterval milliseconds*/
+		setInterval(function() {
+		  insertRandomDatapoints();
+		}, updateInterval);
+
+		/* Function that generates and inserts random datapoint into the chart */
+		function insertRandomDatapoints() {
+		  let tmpData = {
+		    one: Math.floor(Math.random() * 35) + 10
+		  };
+
+		  chart1.series.addData(tmpData);
+		  chart1.render();
+		}
+
+	</script>
+</body>
+</html>

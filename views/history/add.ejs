@@ -1,0 +1,67 @@
+<% layout('../layout/index') %>
+<% block('css', `
+
+
+`) %>
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+  <h1>
+    Alarm
+    <small>Add</small>
+  </h1>
+  <ol class="breadcrumb">
+    <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+    <li class="active">Alarm</li>
+  </ol>
+</section>
+
+<!-- Main content -->
+<section class="content container-fluid">
+  <form method="post" action="/alarm/add">
+    <div class="form-row">
+      <div class="col-md-4 mb-3 col-sm-6">
+        <label>Name</label>
+        <input type="text" class="form-control" name="name" placeholder="Tag namw..." value="">
+      </div>
+      <div class="col-md-4 mb-3 col-sm-6">
+        <label>bit</label>
+        <input type="text" class="form-control" name="bit" placeholder="Bit..."
+          value="" required>
+      </div>
+      <div class="col-md-4 mb-3">
+        <label>Alarm text</label>
+        <input type="text" class="form-control" name="text" placeholder="Alarm text..."
+          value="">
+      </div>
+      <div class="col-md-4 mb-3 col-sm-6">
+        <label>Flags</label>
+        <input type="text" class="form-control" name="flag" placeholder="Flags..."
+          value="" required>
+      </div>
+      <div class="col-md-4 mb-3 col-sm-6">
+        <label>Note</label>
+        <input type="text" class="form-control" name="note" placeholder="Role..."
+          value="">
+      </div>
+     </div>
+      
+    <div class="form-row">
+      <div class="col-md-12 mb-3 col-sm-6">
+      <br>
+        <button class="btn btn-success" type="submit">Add </button>
+      </div>
+    </div>
+   
+  </form>
+
+</section>
+
+
+
+<% block('script', `
+
+
+
+`) -%>
+

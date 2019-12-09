@@ -1,0 +1,262 @@
+<% layout('../layout/index') %>
+<% block('css', `
+
+  <!-- DataTables -->
+  <!-- <link rel="stylesheet" href="/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css"> -->
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
+
+`) %>
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+  <h1>
+    Realtime
+    <small>Infomation</small>
+  </h1>
+  <ol class="breadcrumb">
+    <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+    <li class="active">Alarm</li>
+  </ol>
+</section>
+
+<!-- Main content -->
+<section class="content container-fluid">
+	<div class="panel-heading">
+
+	</div>
+  <div class="box">
+    <div class="box-header">
+      <h4 class="box-title">Real Alarm</h4>
+    </div>
+    <!-- /.box-header -->
+    <div class="box-body no-padding">
+      <table class="table table-condensed" id="tb1">
+        <tr>
+          <th style="width: 40%">Time</th>
+          <th>Alarm Description</th>
+        </tr>
+
+        <tr>
+          <!-- <td>1</td>
+          <td>1</td> -->
+        </tr>
+      </table>
+    </div>
+    <!-- /.box-body -->
+  </div>
+
+	<div class="row">
+    <div class="col-md-6">
+      <div class="box box-default">
+        <div class="box-header with-border">
+          <i class="fa fa-warning"></i>
+
+          <h3 class="box-title">Infomation</h3>
+        </div>
+        <!-- /.box-header -->
+        <div class="box-body">
+          <div class="row">
+            <div class="col-md-6">
+              <h5>Running</h5>
+            </div>
+            <div class="col-md-6">
+              <h5><span class="label label-default" id="MAIN_04_HMI_HMI_m_fanmotortestmode" style="font-size: 20px">OFF</span></h5>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <h5>Size</h5>
+            </div>
+            <div class="col-md-6">
+              <h5></h5>
+              <h5><span class="label label-warning" id="MAIN_04_HMI_HMI_m_productsize" style="font-size: 20px">XL</span></h5>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <h5>Good product</h5>
+            </div>
+            <div class="col-md-6">
+              <h5><span class="label label-warning" id="MAIN_03_SLVAR_gs_m_productdata_1__productnum" style="font-size: 20px">0</span></h5>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <h5>Reject product</h5>
+            </div>
+            <div class="col-md-6">
+              <h5><span class="label label-success" id="MAIN_03_SLVAR_gs_m_productdata_1__discardnum" style="font-size: 20px">0</span></h5>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <h5>Good percent</h5>
+            </div>
+            <div class="col-md-6">
+              <h5><span class="label label-success" id="MAIN_03_SLVAR_gs_m_productdata_1__productratio" style="font-size: 20px">0</span></h5>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <h5>Total product</h5>
+            </div>
+            <div class="col-md-6">
+              <h5><span class="label label-success" id="MAIN_03_SLVAR_gs_m_productdata_1__recordnum" style="font-size: 20px">0</span></h5> 
+            </div>
+          </div>
+        </div>
+        <!-- /.box-body -->
+      </div>
+      <!-- /.box -->
+    </div>
+    <!-- /.col -->
+
+    <div class="col-md-6">
+      <div class="box box-default">
+        <div class="box-header with-border">
+          <i class="fa fa-bullhorn"></i>
+
+          <h3 class="box-title">Callouts</h3>
+        </div>
+        <!-- /.box-header -->
+        <div class="box-body">
+          <div class="row">
+            <div class="col-md-4">
+              <h5>Current speed</h5>
+            </div>
+            <div class="col-md-2">
+              <h5><span class="label label-info" id="MAIN_04_HMI_HMI_m_currentspeed" style="font-size: 20px">0</span></h5>
+            </div>
+            <div class="col-md-4">
+              <h5>pics/min</h5>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-4">
+              <h5>Low speed running</h5>
+            </div>
+            <div class="col-md-2">
+              <h5><span class="label label-info" id="MAIN_04_HMI_HMI_m_speedsetpointADD_1_" style="font-size: 20px">0</span></h5>
+            </div>
+            <div class="col-md-4">
+              <h5>pics/min</h5>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-4">
+              <h5>Middle speed running</h5>
+            </div>
+            <div class="col-md-2">
+              <h5><span class="label label-info" id="MAIN_04_HMI_HMI_m_speedsetpointADD_2_" style="font-size: 20px">0</span></h5>
+            </div>
+            <div class="col-md-4">
+              <h5>pics/min</h5>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-4">
+              <h5>Middle speed running</h5>
+            </div>
+            <div class="col-md-2">
+              <h5><span class="label label-info" id="MAIN_04_HMI_HMI_m_speedsetpointADD_3_" style="font-size: 20px">0</span></h5>
+            </div>
+            <div class="col-md-4">
+              <h5>pics/min</h5>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-4">
+              <h5>Set stop speed</h5>
+            </div>
+            <div class="col-md-2">
+              <h5><span class="label label-info" id="MAIN_04_HMI_HMI_m_speedsetpoint" style="font-size: 20px">0</span></h5>
+            </div>
+            <div class="col-md-4">
+              <h5>pics/min</h5>
+            </div>
+          </div>
+        </div>
+        <!-- /.box-body -->
+      </div>
+      <!-- /.box -->
+    </div>
+    <!-- /.col -->
+  </div>
+
+
+</section>
+
+<!-- <script src="bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
+ <script src="bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+ -->
+
+<% block('script', `
+
+<!-- DataTables -->
+ 
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+<script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+
+
+
+
+
+`) -%>
+
+<script type="text/javascript">
+
+// $.ajax({
+// 	    type: "GET",
+// 	    url: "/api/history",
+// 	    cache: false,
+// 	    success: function(data){
+// 	      series = data;
+// 	      console.log(series)
+// 	    },
+// 	  })
+</script>
+<script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
+<script type="text/javascript">
+  var socket = io("http://localhost:3001");
+  socket.on("AlarmText", function(data)
+  {
+    console.log(data);
+    // datas.forEach(function(data){
+    //   $("#tb1").append(`
+    //   <tr>
+    //       <td>` + new Date() + `</td>
+    //       <td>` + data + `</td>
+    //     </tr>
+    //   `);
+    // })
+
+    if(data.action == "add"){
+      $("#tb1").append(`
+        <tr id="`+ data.id+`">
+          <td>` + new Date() + `</td>
+          <td><span class="label label-warning">` + data.text + `</span></td>
+        </tr>
+        `);
+    }
+    if (data.action == "del") {
+      $('#'+ data.id).remove();
+
+    }
+    
+    
+  });
+
+  socket.on("ProductText", function(data)
+  {
+    console.log(data);
+    if (parseFloat(data.Value) > 0) {
+      data.Value =  Math.round(parseFloat(data.Value) * 100)/100;
+    }
+    $("#"+data.TagName.replace('{', '_').replace('}','_')).html(data.Value);
+    
+    
+    // Math.round(n * 1000)/1000;
+  });
+</script>

@@ -1,0 +1,22 @@
+{
+  "name": "modbusopcserver",
+  "version": "0.0.1",
+  "description": "OPC Server test",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "i6-driver-modbus": "^1.0.3-beta.5",
+    "jsmodbus": "^3.1.4",
+    "lodash": "^4.17.15",
+    "modbusjs": "0.0.11",
+    "mqtt": "^3.0.0",
+    "node-modbus": "^4.3.1",
+    "node-opcua": "0.0.61"
+  },
+  "devDependencies": {}
+}
