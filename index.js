@@ -54,7 +54,7 @@ mongoose.connect(process.env.MONGO_URL, { useNewUrlParser: true, useUnifiedTopol
 
 
 app.get('/', function(req, res) {
-	res.render('layout/index');
+	res.render('real/list2');
 }) 
 
 // Router -----------------------------------------------------------
@@ -151,7 +151,7 @@ server.on('published',function getdata(packet,client) {
 	if(packet.topic =='PLC/Data') 
 	{
 		indexCount ++;
-		console.log("index count = " + indexCount)
+		//console.log("index count = " + indexCount)
 		let data = packet.payload.toString();
 		let data_json = JSON.parse(data)
 		let T1 = data_json.Temp_J
@@ -168,19 +168,21 @@ server.on('published',function getdata(packet,client) {
 			T3: T3,
 			T4: T4,
 			B1: B1,
-			B1: B2,
+			B2: B2,
 			timestamp: new Date()
 		};
 
-		if (indexCount > 10 ) {
+		if (indexCount > 200 ) {
+			indexCount = 0;
+
 			History.insertMany(saveData, function(err) {
 				if (err) return handleError(err);
 			});
 
-			indexCount = 0;
+			
 		}
 		
-		console.log("Data: " +  saveData)
+		//console.log("Data: " +  saveData)
 		io.emit('dataReal', saveData);
 	}
 

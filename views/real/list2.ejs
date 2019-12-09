@@ -94,7 +94,7 @@
           </div>
         </div>
         <div class="box-footer clearfix">
-          Nhiệt độ hiện tại 27.23
+          Nhiệt độ hiện tại <span id="T1_Value">0</span>
         </div>
       </div>
     </div>
@@ -111,7 +111,7 @@
           </div>
         </div>
         <div class="box-footer clearfix">
-          Nhiệt độ hiện tại 28.53
+          Nhiệt độ hiện tại <span id="T2_Value">0</span>
         </div>
       </div>
     </div>
@@ -128,7 +128,7 @@
           </div>
         </div>
         <div class="box-footer clearfix">
-          Nhiệt độ hiện tại 28.53
+          Nhiệt độ hiện tại <span id="T3_Value">0</span>
         </div>
       </div>
     </div>
@@ -145,7 +145,7 @@
           </div>
         </div>
         <div class="box-footer clearfix">
-          Nhiệt độ hiện tại 28.53
+          Nhiệt độ hiện tại <span id="T4_Value">0</span>
         </div>
       </div>
     </div>
@@ -300,6 +300,12 @@
 <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
 <script type="text/javascript">
+  // Khai bao bien toan cuc
+  var intT1 = 0;
+  var intT2 = 0;
+  var intT3, intT4, intB1, intB2;
+</script>
+<script type="text/javascript">
   //var socket = io("http://localhost:3001");
   var socket = io("http://124.158.10.133:3001");
   socket.on("AlarmText", function(data)
@@ -345,16 +351,29 @@
   socket.on("dataReal", function(data)
   {
     console.log(data);
-    let T1 = parseFloat(data.T1);
-    let T2 = parseFloat(data.T2);
-    let T3 = parseFloat(data.T3);
-    let T4 = parseFloat(data.T4);
+    intT1 = parseFloat(data.T1);
+    intT2 = parseFloat(data.T2);
+    intT3 = parseFloat(data.T3);
+    intT4 = parseFloat(data.T4);
 
+    // console.log(typeof(Math.round(parseFloat(intT1) * 100)/100))
+
+    gaugeT1.set(intT1); document.getElementById("T1_Value").innerHTML = intT1; arrLine[1].value = intT1;
+    gaugeT2.set(intT2); document.getElementById("T2_Value").innerHTML = intT2; arrLine[2].value = intT2;
+    gaugeT3.set(intT3); document.getElementById("T3_Value").innerHTML = intT3; arrLine[3].value = intT3;
+    gaugeT4.set(intT4); document.getElementById("T4_Value").innerHTML = intT4; arrLine[4].value = intT4;
     // if (parseFloat(data.Value) > 0) {
     //   data.Value =  Math.round(parseFloat(data.Value) * 100)/100;
     // }
     // $("#"+data.TagName.replace('{', '_').replace('}','_')).html(data.Value);
     
+    // Update level
+    if (parseFloat(data.B1) > 0) {
+      gauge1.update(parseFloat(data.B1));
+    }
+    if (parseFloat(data.B2) > 0) {
+      gauge2.update(parseFloat(data.B2));
+    }
     
     // Math.round(n * 1000)/1000;
   });
@@ -407,40 +426,40 @@
   };
   
   var target = document.getElementById('T1');
-  var gaugeUab = new Gauge(target).setOptions(opts);
-  gaugeUab.maxValue = 100;
-  gaugeUab.animationSpeed = 10;
-  gaugeUab.set(27.23);
+  var gaugeT1 = new Gauge(target).setOptions(opts);
+  gaugeT1.maxValue = 100;
+  gaugeT1.animationSpeed = 10;
+  gaugeT1.set(0);
   
   var target = document.getElementById('T2');
-  var gaugeUab = new Gauge(target).setOptions(opts);
-  gaugeUab.maxValue = 100;
-  gaugeUab.animationSpeed = 10;
-  gaugeUab.set(28.53);
+  var gaugeT2 = new Gauge(target).setOptions(opts);
+  gaugeT2.maxValue = 100;
+  gaugeT2.animationSpeed = 10;
+  gaugeT2.set(0);
 
   var target = document.getElementById('T3');
-  var gaugeUab = new Gauge(target).setOptions(opts);
-  gaugeUab.maxValue = 100;
-  gaugeUab.animationSpeed = 10;
-  gaugeUab.set(28.53);
+  var gaugeT3 = new Gauge(target).setOptions(opts);
+  gaugeT3.maxValue = 100;
+  gaugeT3.animationSpeed = 10;
+  gaugeT3.set(0);
 
   var target = document.getElementById('T4');
-  var gaugeUab = new Gauge(target).setOptions(opts);
-  gaugeUab.maxValue = 100;
-  gaugeUab.animationSpeed = 10;
-  gaugeUab.set(28.53);
+  var gaugeT4 = new Gauge(target).setOptions(opts);
+  gaugeT4.maxValue = 100;
+  gaugeT4.animationSpeed = 10;
+  gaugeT4.set(0);
 </script>
 
 <!-- Level -->
 <script type="text/javascript">
-  var level1 = 49;
+  var level1 = 50;
   var config1 = liquidFillGaugeDefaultSettings();
   config1.displayPercent = false;
-  var gauge1 = loadLiquidFillGauge("fillgauge1", level1, config1);
+  var gauge1 = loadLiquidFillGauge("fillgauge1", 0, config1);
 
   var config2 = liquidFillGaugeDefaultSettings();
   config2.displayPercent = false;
-  var gauge1 = loadLiquidFillGauge("fillgauge2", level1, config2);
+  var gauge2 = loadLiquidFillGauge("fillgauge2", 0, config2);
   
   function NewValue(){
       if(Math.random() > .5){
@@ -452,21 +471,12 @@
 </script>
 
 <script type="text/javascript">
-  // socket.on("Gateway", function(data)
-  // {
-  //   console.log(data);
-  //   gaugeUab.set(data.Value);
-    
-  // });
-</script>
-
-<script type="text/javascript">
   var arrLine = [
       objL0 = {isDiplay: 0},
-      objL1 = {isDiplay: 1, tooltipLabel: 'LINE 1', color: 'blue'},
-      objL2 = {isDiplay: 1, tooltipLabel: 'LINE 2', color:'green'},
-      objL3 = {isDiplay: 1, tooltipLabel: 'LINE 3',color:'pink'},
-      objL4 = {isDiplay: 1, tooltipLabel: 'LINE 4', color:'red'},
+      objL1 = {isDiplay: 1, tooltipLabel: 'LINE 1', color: 'blue', value : 0 },
+      objL2 = {isDiplay: 1, tooltipLabel: 'LINE 2', color:'green', value : 0},
+      objL3 = {isDiplay: 1, tooltipLabel: 'LINE 3',color:'pink', value : 0},
+      objL4 = {isDiplay: 1, tooltipLabel: 'LINE 4', color:'red', value : 0},
     ];
 
   // Data
@@ -528,7 +538,7 @@
   setInterval(function() {
     for (let i = 1; i <= 4 ; i++) {
       if (arrLine[i].isDisplay == 1) {
-        arrLineInst[i].append(new Date().getTime(), Math.random()*100, arrLine[i].tooltipLabel);
+        arrLineInst[i].append(new Date().getTime(), arrLine[i].value , arrLine[i].tooltipLabel); //Math.random()*100
       }
     }
 
