@@ -10,9 +10,10 @@ router.get('/', controller.getHistory);
 router.post('/', controller.postHistory);
 
 router.get('/excel', controller.listExcel);
-// router.post('/add', controller.postAdd);
+router.get('/chart', controller.getChart);
+//router.post('/chart', controller.postChart);
 
-// router.get('/edit/:id', controller.getEdit);
+router.post('/apigetdata', controller.apiGetData);
 // router.post('/edit/:id', controller.postEdit);
 
 // router.get('/delete/:id', controller.getDelete);

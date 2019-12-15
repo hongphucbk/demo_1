@@ -251,55 +251,119 @@ module.exports.listExcel = async function(req, res) {
 	// OR you can save this buffer to the disk by creating a file.
 };
 
+module.exports.getChart = async function(req, res) {
+	var perPage = 10
+  var page = req.query.page || 1
 
-module.exports.getAdd = function(req, res) {
-	History.find().then(function (stations) {
-		res.render('device/add', {
-				//station_measurements: station_measurements,
-				stations: stations,
-				
-			});
-	});	
-};
+	let histories = await History.find().skip((perPage * page) - perPage).limit(perPage);
+	let recordsTotal  = await History.countDocuments({});
 
-module.exports.postAdd = function(req, res) {
-	console.log(req.body);
-	// or, for inserting large batches of documents
-	History.insertMany(req.body, function(err) {
-		if (err) return handleError(err);
-	});
-	res.redirect('/device');
-};
+	let pages = Math.ceil(recordsTotal / perPage);
 
-module.exports.getEdit = function(req, res) {
-	var id = req.params.id;
-	History.findById(id).then(function(device){
-		History.find().then(function (stations) {
-			res.render('device/edit', {
-				device: device,
-				stations: stations,
-			});
-		});	
+	//console.log(page, pages, recordsTotal)
+
+	let startdate = new Date();
+
+	res.render('history/chart', {
+		histories: histories,
+		current: page,
+		pages: pages,
+		moment: moment,
+		startdate: startdate,
 	});
 };
 
-module.exports.postEdit = function(req, res) {
-	var query = {"_id": req.params.id};
-	var data = {
-		"station" : req.body.station,
-		"name" : req.body.name,
-	    "description" : req.body.description,
-	    "active" : req.body.active,
-	    "information" : req.body.information,
-	    "note" : req.body.note
+
+
+
+module.exports.apiGetData = async function(req, res) {
+	currentDay = new Date();
+
+	strStartDate = req.body.startDate ? req.body.startDate: currentDay;
+	let dtStartDate = new Date(strStartDate);
+  let strYear = dtStartDate.getFullYear();
+  let strMonth = dtStartDate.getMonth()+1;
+  let strDate = dtStartDate.getDate();
+  
+
+	console.log(strYear + " " + strMonth + " " + strDate)
+
+	var data1 = [];
+
+	for (let i = 0; i < 24; i++) {
+		let start_date = new Date(strYear + "-" + strMonth +"-" +strDate  + " " + i +":00:00")
+		let end_date = new Date(strYear + "-" + strMonth +"-" +strDate +" " + i + ":59:59") 
+		
+		histories = await History.find({timestamp: { $gte: start_date , $lte: end_date}});
+		let a = ""; let b
+		let count = 0, sum = 0, avg = 0;
+		let tempData = 
+		await histories.forEach(function(data){
+			a = a + " " +  data.T1
+			b = data.timestamp;
+			
+			count++;
+			sum += data.T1
+			avg = count == 0 ? 0 : Math.round( sum*100/count)/100;
+		});
+		
+		let temp_data = 
+		{
+		  timestamp: start_date.toLocaleTimeString('en-US', { hour12: false }).slice(0, 5),
+		  value: avg
+		}
+
+		data1.push(temp_data)
+ 		
+ 		//await console.log("-------------------------------------")
+ 		//await console.log('Count = ' + count + ", Sum = " + sum + ", avg = " + avg)
+ 		//await console.log(b + " " + a)
 	}
-	console.log(query)
-	History.findOneAndUpdate(query, data, {'upsert':true}, function(err, doc){
-	    if (err) return res.send(500, { error: err });
-	    res.redirect('/device');
-	});
-
+	
+	res.json(data1);
 };
+
+// //
+// module.exports.postAdd = function(req, res) {
+// 	console.log(req.body);
+// 	// or, for inserting large batches of documents
+// 	History.insertMany(req.body, function(err) {
+// 		if (err) return handleError(err);
+// 	});
+// 	res.redirect('/device');
+// };
+
+// module.exports.getEdit = function(req, res) {
+// 	var id = req.params.id;
+// 	History.findById(id).then(function(device){
+// 		History.find().then(function (stations) {
+// 			res.render('device/edit', {
+// 				device: device,
+// 				stations: stations,
+// 			});
+// 		});	
+// 	});
+// };
+
+
+
+// module.exports.postEdit = function(req, res) {
+// 	var query = {"_id": req.params.id};
+// 	var data = {
+// 		"station" : req.body.station,
+// 		"name" : req.body.name,
+// 	    "description" : req.body.description,
+// 	    "active" : req.body.active,
+// 	    "information" : req.body.information,
+// 	    "note" : req.body.note
+// 	}
+// 	console.log(query)
+// 	History.findOneAndUpdate(query, data, {'upsert':true}, function(err, doc){
+// 	    if (err) return res.send(500, { error: err });
+// 	    res.redirect('/device');
+// 	});
+
+// };
 
 // module.exports.getDelete = function(req, res) {
 // 	var id = req.params.id;

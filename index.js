@@ -39,7 +39,6 @@ app.set('views', './views');
 // Khai báo Router --------------------------------------------------
 var userRouter = require('./routes/user.route');
 var authRouter = require('./routes/auth.route');
-//var measurementRouter = require('./routes/measurement.route');
 
 var emailRouter = require('./routes/email.route');
 

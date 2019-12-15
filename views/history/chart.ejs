@@ -1,0 +1,261 @@
+<% layout('../layout/index') %>
+<% block('css', `
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+  
+  
+  
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+
+    <!-- Optional theme -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.min.css" />
+
+
+`) %>
+
+  <style type="text/css">
+    td{
+    	padding-top: 0px !important;
+    	padding-bottom: 0px  !important;
+    }
+
+
+  </style>
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+  <h1>
+    History
+    <small>Chart</small>
+  </h1>
+  <ol class="breadcrumb">
+    <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+    <li class="active">History Chart</li>
+  </ol>
+</section>
+
+<!-- Main content -->
+<section class="content container-fluid">
+	<div class="panel-heading">
+		<div class="row">
+        <div class="col-md-1">
+          <label style="float: right;">Date</label>
+        </div>
+        <div class='col-md-3'>
+          <div class="form-group">
+            <div class='input-group date' id='datetimepicker6'>
+              <input type='text' class="form-control" id="startdate1" name="startdate" value="<%= moment(startdate).format('DD-MMM-YYYY') %>" />
+              <span class="input-group-addon">
+                            <span class="glyphicon glyphicon-calendar"></span>
+              </span>
+            </div>
+          </div>
+        </div>
+        
+        
+        <div class="col-md-1">
+          <button onclick="updateChart()" class="form-control">View</button>
+        </div>
+        
+      </div>
+	</div>
+
+	<div class="row">
+    <div class="col-md-10">
+      <div class="box box-default">
+        <div class="box-header with-border">
+          <i class="fa fa-bullhorn"></i>
+
+          <h3 class="box-title">Temperature</h3>
+        </div>
+        
+        <div class="box-body">
+          <canvas id="myChart"></canvas>
+  
+          
+        </div>
+      </div>
+    </div>
+    <div class="col-md-2">
+    	<table class="table table-condensed" id='items_table'>
+        
+        
+
+      </table>
+    </div>
+  </div>
+</section>
+
+<% block('script', `
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script>
+
+
+
+  <script type="text/javascript">
+       
+      $('#startdate').datetimepicker({
+          useCurrent: false,
+          format: 'DD-MMM-YYYY',
+          minDate: moment()
+      });
+   
+      $('#startdate').datetimepicker().on('dp.change', function (e) {
+          var incrementDay = moment(new Date(e.date));
+          incrementDay.add(-1, 'days');
+          $(this).data("DateTimePicker").hide();
+      });
+    $(document).ready(function() {
+      $(function() {
+        $('#datetimepicker6').datetimepicker({format: 'DD-MMM-YYYY'});
+        
+
+        
+      });
+    });
+
+
+  </script>
+
+
+`) -%>
+
+<script type="text/javascript">
+	
+
+</script>
+
+<script type="text/javascript">
+	let labels = []; let vals = []; let tblData = [];
+  var ctx = document.getElementById('myChart').getContext('2d');
+	var chart = new Chart(ctx, {
+	    // The type of chart we want to create
+	    type: 'line',
+
+	    // The data for our dataset
+	    data: {
+	        labels: [],
+	        datasets: [{
+	            label: 'T1 [DEG.C]',
+	            //backgroundColor: 'rgb(255, 99, 132)',
+	            borderColor: 'rgb(255, 99, 132)',
+	            data: []
+	        }]
+	    },
+
+	    // Configuration options go here
+	    options: {
+	    	legend: {
+          display: true,
+          labels: {
+              fontColor: 'rgb(255, 99, 1)'
+          }
+        }
+	    }
+	});
+
+
+	$.ajax({
+    url: '/history/apigetdata',
+    method: 'post',
+    data: { id: 1}
+    }).done(function(res) {
+        if (true) {
+	        console.log(res);
+	        res.forEach(function(dt){
+	        	labels.push(dt.timestamp)
+	        	vals.push(dt.value)
+
+	        	tblData.push({ time: dt.timestamp, val:dt.value})
+	        })
+	        console.log(vals)
+	        chart.data.labels = labels;
+	        chart.data.datasets[0].data = vals;
+	      	chart.update();
+	      	
+	      	updateDigitalData(tblData);
+
+	    //     var ctx = document.getElementById('myChart').getContext('2d');
+					// var chart = new Chart(ctx, {
+					//     // The type of chart we want to create
+					//     type: 'line',
+
+					//     // The data for our dataset
+					//     data: {
+					//         labels: labels,
+					//         datasets: [{
+					//             label: 'T1 [DEG.C]',
+					//             backgroundColor: 'rgb(255, 99, 132)',
+					//             borderColor: 'rgb(255, 99, 132)',
+					//             data: vals
+					//         }]
+					//     },
+
+					//     // Configuration options go here
+					//     options: {
+					//     	legend: {
+			  //           display: true,
+			  //           labels: {
+			  //               fontColor: 'rgb(255, 99, 1)'
+			  //           }
+				 //        }
+					//     }
+					// });
+	        //window.location.reload();
+		    } else {
+		        console.log('error...ajax');
+		    }
+		  });
+
+  function updateChart(){
+  	let startDate = $('#startdate1').val();
+
+  	console.log(startDate)
+  	$.ajax({
+    url: '/history/apigetdata',
+    method: 'post',
+    data: { startDate: startDate}
+    }).done(function(res) {
+        if (true) {
+        	labels = []; vals = []; tblData = [];
+	        console.log(res);
+	        res.forEach(function(dt){
+	        	labels.push(dt.timestamp)
+	        	vals.push(dt.value)
+	        	tblData.push({ time: dt.timestamp, val:dt.value})
+	        })
+	      	chart.data.datasets[0].data = vals;
+	      	chart.update();
+	      	updateDigitalData(tblData);
+	        //window.location.reload();
+		    } else {
+		        console.log('error...ajax');
+		    }
+		  });
+  }
+
+  function updateDigitalData(datas){
+  	let strHTML = "", strHeader = "";
+  	strHeader = `<tr>
+          <th>Time</th>
+          <th>T1</th>
+        </tr>`
+    console.log(datas)
+  	datas.forEach(function(dt){
+  		strHTML += 
+  		`<tr>
+          <td>`+ dt.time +`</td>
+          <td>`+ dt.val + `</td>  
+      </tr>`
+  	})
+  	document.getElementById('items_table').innerHTML =  strHeader + strHTML;
+
+  }
+</script>
+
+
+
