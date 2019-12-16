@@ -273,9 +273,6 @@ module.exports.getChart = async function(req, res) {
 	});
 };
 
-
-
-
 module.exports.apiGetData = async function(req, res) {
 	currentDay = new Date();
 

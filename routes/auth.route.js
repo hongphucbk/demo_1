@@ -7,6 +7,8 @@ var controller = require('../controllers/auth.controller');
 router.get('/login', controller.login);
 // router.get('/add', controller.add);
 router.post('/login', controller.postLogin);
+router.post('/apiPostLogin', controller.apiPostLogin);
+
 
 // router.post('/login', validate.postAdd, controller.postAdd);
 

@@ -53,6 +53,21 @@ module.exports.postLogin = function(req, res) {
 
 };
 
+module.exports.apiPostLogin = function(req, res) {
+	let user_id = req.cookies.userId ? req.cookies.userId : null;
+	User.findOne({_id: user_id}).then(function(user){
+		let result;
+		if (!user) {
+			result = {result: 0, username: 'Login'}
+		}else{
+			result = {result: 1, username: user.name, created_at: user.created_at}			
+		}
+		console.log(result)
+		res.json(result);
+
+	});
+
+};
 
 
 

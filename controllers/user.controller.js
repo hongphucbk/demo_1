@@ -20,8 +20,9 @@ module.exports.add = function(req, res) {
 };
 
 module.exports.postAdd = function(req, res) {
-	console.log(req.body);
-	// or, for inserting large batches of documents
+	req.body.created_at = new Date();
+	req.body.updated_at = new Date();
+
 	User.insertMany(req.body, function(err) {
 		if (err) return handleError(err);
 	});
@@ -41,10 +42,11 @@ module.exports.postEdit = function(req, res) {
 	var query = {"_id": req.params.id};
 	var data = {
 		"name" : req.body.name,
-	    "phone" : req.body.phone,
-	    "email" : req.body.email,
-	    "password" : req.body.password,
-	    "role" : parseInt(req.body.role)
+    "phone" : req.body.phone,
+    "email" : req.body.email,
+    "password" : req.body.password,
+    "role" : parseInt(req.body.role),
+    "updated_at" : new Date()
 	}
 
 	//console.log(query)

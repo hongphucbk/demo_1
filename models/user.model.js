@@ -4,7 +4,9 @@ var userSchema = new mongoose.Schema({
 	email: String,
 	password: String,
 	phone: String,
-	role: Number
+	role: Number,
+	created_at: Date,
+	updated_at: Date
 });
 
 var User = mongoose.model('User', userSchema, 'users');
