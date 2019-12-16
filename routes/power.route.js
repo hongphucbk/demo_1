@@ -3,16 +3,16 @@ var router = express.Router();
 
 // router.use(express.static(__dirname + './public'));
 
-var controller = require('../controllers/overview.controller');
+var controller = require('../controllers/power.controller');
 //var validate = require('../validate/station.validate');
 
-router.get('/', controller.list);
+router.get('/', controller.history);
 
-router.get('/maps', controller.maps);
+//router.get('/maps', controller.maps);
 
 
-router.get('/detail/:id', controller.getDetail);
-router.get('/chart/:id', controller.getChart);
+//router.get('/detail/:id', controller.getDetail);
+//router.get('/chart/:id', controller.getChart);
 //router.post('/add', validate.postAdd, controller.postAdd);
 
 // router.get('/edit/:id', controller.getEdit);

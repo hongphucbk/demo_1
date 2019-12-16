@@ -1,6 +1,5 @@
 var User = require('../models/user.model')
 
-
 module.exports.requireAuth = function(req, res, next){
 	if (!req.cookies.userId) {
 		res.redirect('/auth/login');
@@ -14,8 +13,6 @@ module.exports.requireAuth = function(req, res, next){
 		};
 	});
 
-	res.locals.user = "A";
+	//res.locals.user = "A";
 	next();
-
-
 };

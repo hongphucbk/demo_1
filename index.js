@@ -42,17 +42,19 @@ var authRouter = require('./routes/auth.route');
 
 var emailRouter = require('./routes/email.route');
 
-var alarmRouter = require('./routes/alarm.route');
 var historyRouter = require('./routes/history.route');
 var realRouter = require('./routes/real.route');
+var powerRouter = require('./routes/power.route');
+
 //-------------------------------------------------------------------
 
 var mongoose = require('mongoose');
 //mongoose.connect(process.env.MONGO_URL, { useNewUrlParser: true, useFindAndModify: false, useUnifiedTopology: true});
 mongoose.connect(process.env.MONGO_URL, { useNewUrlParser: true, useUnifiedTopology: true});
 
+var middleware = require('./middlewares/auth.middleware');
 
-app.get('/', function(req, res) {
+app.get('/', middleware.requireAuth, function(req, res) {
 	res.render('real/list2');
 }) 
 
@@ -61,9 +63,10 @@ app.use('/users', userRouter);
 app.use('/auth', authRouter);
 app.use('/email', emailRouter);
 
-app.use('/alarm', alarmRouter);
 app.use('/history', historyRouter);
 app.use('/real', realRouter);
+app.use('/power', powerRouter);
+
 //-------------------------------------------------------------------
 
 app.listen(port, function(){

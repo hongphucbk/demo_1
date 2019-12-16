@@ -5,9 +5,10 @@ var router = express.Router();
 
 var controller = require('../controllers/real.controller');
 //var validate = require('../validate/station.validate');
+var middleware = require('../middlewares/auth.middleware');
 
 router.get('/', controller.list); 
-router.get('/l2', controller.list2); 
+router.get('/l2', middleware.requireAuth, controller.list2); 
 
 //router.get('/add', controller.getAdd);
 

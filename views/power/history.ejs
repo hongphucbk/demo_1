@@ -1,0 +1,197 @@
+<% layout('../layout/index') %>
+<% block('css', `
+
+  <!-- DataTables -->
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+
+  <!-- Optional theme -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.min.css" />
+
+  <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.js"></script>
+  <script type="text/javascript" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+  <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+
+`) %>
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+  <h1>
+    Power
+    <small>History</small>
+  </h1>
+  <ol class="breadcrumb">
+    <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+    <li class="active">Power</li>
+  </ol>
+</section>
+
+<!-- Main content -->
+<section class="content container-fluid">
+	<div class="panel-heading">
+    
+      <div class="row">
+        <form action="/history" method="post">
+        <div class="col-md-1">
+          <label style="float: right;">Start</label>
+        </div>
+        <div class='col-md-3'>
+          <div class="form-group">
+            <div class='input-group date' id='datetimepicker6'>
+              <input type='text' class="form-control" name="startdate" value="<%= moment(startdate).format('DD-MMM-YYYY HH:mm:ss') %>" />
+              <span class="input-group-addon">
+                            <span class="glyphicon glyphicon-calendar"></span>
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-1">
+          <label style="float: right;">End</label>
+        </div>
+        <div class='col-md-3'>
+          <div class="form-group">
+            <div class='input-group date' id='datetimepicker7'>
+              <input type='text' class="form-control" name="enddate" value="<%= moment(enddate).format('DD-MMM-YYYY HH:mm:ss') %>"/>
+              <span class="input-group-addon">
+                            <span class="glyphicon glyphicon-calendar"></span>
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-1">
+          <input type="submit" name="" class="form-control" value="View">
+        </div>
+        </form>
+        <div class="col-md-2">
+          <a href="/history/excel">
+            <button class="form-control">
+              <span><i class="fa fa-download" aria-hidden="true"></i> </span>Download</button></a>
+          
+        </div>
+      </div>
+    
+    
+	</div>
+  <div class="box">
+    <div class="box-header">
+      <h3 class="box-title">History Data</h3>
+    </div>
+    <!-- /.box-header -->
+    <div class="box-body no-padding">
+      
+
+      <table class="table table-condensed">
+        <tr>
+          <th>Time</th>
+          <th>Area</th>
+          <th>Ud</th>
+          <th>Up</th>
+          <th>I</th>
+          <th>Kwh</th>
+        </tr>
+
+        <% powers.forEach(function(val) { %>
+        <tr>
+          <td><%= moment(val.timestamp).format('DD-MMM-YYYY HH:mm:ss') %></td>
+          <td><%= val.T1 %></td>
+          <td><%= val.T2 %></td>
+          <td><%= val.T3 %></td>
+          <td><%= val.T4 %></td>
+          <td><%= val.B1 %></td>
+        </tr>
+        <% }) %>
+      </table>
+      <% if (pages > 0) { %>
+        <ul class="pagination text-center">
+            <% if (current == 1) { %>
+                <li class="disabled"><a>First</a></li>
+            <% } else { %>
+                <li><a href="/history?page=1">First</a></li>
+            <% } %>
+            <% var i = (Number(current) > 5 ? Number(current) - 4 : 1) %>
+            <% if (i !== 1) { %>
+                <li class="disabled"><a>...</a></li>
+            <% } %>
+            <% for (; i <= (Number(current) + 4) && i <= pages; i++) { %>
+                <% if (i == current) { %>
+                    <li class="active"><a><%= i %></a></li>
+                <% } else { %>
+                    <li><a href="/history?page=<%= i %>"><%= i %></a></li>
+                <% } %>
+                <% if (i == Number(current) + 4 && i < pages) { %>
+                    <li class="disabled"><a>...</a></li>
+                <% } %>
+            <% } %>
+            <% if (current == pages) { %>
+                <li class="disabled"><a>Last</a></li>
+            <% } else { %>
+                <li><a href="/history?page=<%= pages %>">Last</a></li>
+            <% } %>
+        </ul>
+      <% } %>
+    </div>
+  </div>
+	
+
+
+</section>
+
+<!-- <script src="bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
+ <script src="bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+
+   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+ -->
+
+<% block('script', `
+
+  <!-- DataTables -->
+   
+  <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.js"></script>
+  <script type="text/javascript" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script>
+  <script type="text/javascript">
+      $('#startdate,#enddate').datetimepicker({
+          useCurrent: false,
+          format: 'DD-MMM-YYYY',
+          minDate: moment()
+      });
+      $('#startdate').datetimepicker().on('dp.change', function (e) {
+          var incrementDay = moment(new Date(e.date));
+          incrementDay.add(-1, 'days');
+          $('#enddate').data('DateTimePicker').minDate(incrementDay);
+          $(this).data("DateTimePicker").hide();
+      });
+
+      $('#enddate').datetimepicker().on('dp.change', function (e) {
+          var decrementDay = moment(new Date(e.date));
+          decrementDay.subtract(-1, 'days');
+          $('#startdate').data('DateTimePicker').maxDate(decrementDay);
+           $(this).data("DateTimePicker").hide();
+      });
+
+    $(document).ready(function() {
+      $(function() {
+        $('#datetimepicker6').datetimepicker({format: 'DD-MMM-YYYY HH:mm:ss'});
+        $('#datetimepicker7').datetimepicker({
+          useCurrent: false, //Important! See issue #1075
+          format: 'DD-MMM-YYYY HH:mm:ss'
+        });
+        $("#datetimepicker6").on("dp.change", function(e) {
+          $('#datetimepicker7').data("DateTimePicker").minDate(e.date);
+        });
+        $("#datetimepicker7").on("dp.change", function(e) {
+          $('#datetimepicker6').data("DateTimePicker").maxDate(e.date);
+        });
+      });
+    });
+
+
+  </script>
+
+`) -%>
