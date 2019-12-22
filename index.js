@@ -197,8 +197,8 @@ server.on('published',function getdata(packet,client) {
 
 		
 		console.log("Data: " +  data)
-		console.log("Data Area 1" + data_json.area1.ULN)
-		//io.emit('dataReal', saveData);
+		//console.log("Data Area 1" + data_json.area1.ULN)
+		io.emit('dataPower', data_json);
 	}
 
 });
