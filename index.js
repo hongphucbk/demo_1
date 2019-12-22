@@ -197,34 +197,35 @@ server.on('published',function getdata(packet,client) {
 		let data = packet.payload.toString();
 		let data_json = JSON.parse(data)
 
-		
-		if (indexCountPower > 50 ) {
-			let savePower1 = {
-				ull: data_json.area1.U_LL,
-				uln: data_json.area1.U_LN,
-				i: data_json.area1.I,
-				w: data_json.area1.KWH,
-				area: data_json.area1.Area,
-				timestamp: new Date()
-			};
-			let savePower2 = {
-				ull: data_json.area2.U_LL,
-				uln: data_json.area2.U_LN,
-				i: data_json.area2.I,
-				w: data_json.area2.KWH,
-				area: data_json.area2.Area,
-				timestamp: new Date()
-			};
+		if (data_json.area1) {
+			if (indexCountPower > 50 ) {
+				let savePower1 = {
+					ull: data_json.area1.U_LL,
+					uln: data_json.area1.U_LN,
+					i: data_json.area1.I,
+					w: data_json.area1.KWH,
+					area: data_json.area1.Area,
+					timestamp: new Date()
+				};
+				let savePower2 = {
+					ull: data_json.area2.U_LL,
+					uln: data_json.area2.U_LN,
+					i: data_json.area2.I,
+					w: data_json.area2.KWH,
+					area: data_json.area2.Area,
+					timestamp: new Date()
+				};
 
-			let arr = [savePower1,savePower2];
+				let arr = [savePower1,savePower2];
 
-			indexCountPower = 0;
-			Power.insertMany(arr, function(err) {
-				if (err) return handleError(err);
-			});
-
-			
+				indexCountPower = 0;
+				Power.insertMany(arr, function(err) {
+					if (err) return handleError(err);
+				});
+			}
 		}
+		
+
 		//console.log("Data: " +  data)
 		//console.log("Data Area 1" + data_json.area1.ULN)
 		io.emit('dataPower', data_json);
