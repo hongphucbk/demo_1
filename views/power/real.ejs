@@ -1,0 +1,611 @@
+<% layout('../layout/index') %>
+<% block('css', `
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+  
+  <!-- DataTables -->
+  <!-- <link rel="stylesheet" href="/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css"> -->
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
+
+  <!-- Gause -->
+  <script src="/js/gauge.min.js"></script>
+  <script src="/js/liquidFillGauge.js"></script>
+
+  <!-- Level -->
+  <script src="/js/d3.v3.min.js"></script>
+
+  <!-- Chart -->
+  <script src="/chart2/js/smoothie.js"></script>
+
+`) %>
+
+  <style type="text/css">
+     /*Chart*/
+    div.smoothie-chart-tooltip {
+      background: #444;
+      padding: 1em;
+      margin-top: 20px;
+      font-family: consolas;
+      color: white;
+      font-size: 10px;
+      pointer-events: none;
+    }
+    
+    button{
+      height: 20px;
+      color: #6b6d75;
+    }
+
+
+    #customers {
+      font-family: Arial;
+      border-collapse: collapse;
+      width: 80%;
+    }
+
+    #customers td, #customers th {
+      border: 1px solid #ddd;
+      padding: 3px;
+    }
+
+    #customers tr:nth-child(even){background-color: #f2f2f2;}
+
+    #customers tr:hover {background-color: #ddd;}
+
+    #customers th {
+      padding-top: 2px;
+      padding-bottom: 2px;
+      text-align: left;
+      background-color: #5a92e0;
+      color: white;
+    }
+
+
+  </style>
+
+
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+  <h1>
+    Realtime
+    <small>Infomation</small>
+  </h1>
+  <ol class="breadcrumb">
+    <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+    <li class="active">Alarm</li>
+  </ol>
+</section>
+
+<!-- Main content -->
+<section class="content container-fluid">
+	<div class="panel-heading">
+
+	</div>
+  <div class="box">
+    <div class="box-header">
+      <h4 class="box-title">Real Alarm</h4>
+    </div>
+    <!-- /.box-header -->
+    <div class="box-body no-padding">
+      <table class="table table-condensed" id="tb1">
+        <tr>
+          <th style="width: 40%">Time</th>
+          <th>Alarm Description</th>
+        </tr>
+
+        <tr>
+          <!-- <td>1</td>
+          <td>1</td> -->
+        </tr>
+      </table>
+    </div>
+    <!-- /.box-body -->
+  </div>
+
+	<div class="row">
+    <div class="col-md-2">
+      <div class="box box-primary">
+        <div class="box-header with-border">
+          <i class="fa fa-thermometer-half"></i>
+          <h3 class="box-title">MSB. 01</h3>
+        </div>
+        <div class="box-body">
+          <div class="row" style="margin-left: 0px">
+            <table id="customers">
+              <tr>
+                <th>#</th>
+                <th>Value</th>
+              </tr>
+              <tr>
+                <td>Ud</td>
+                <td>380.4</td>
+              </tr>
+              <tr>
+                <td>Up</td>
+                <td>221.7</td>
+              </tr>
+              <tr>
+                <td>A</td>
+                <td>5</td>
+              </tr>
+              <tr>
+                <td>kWh</td>
+                <td>417.2</td>
+              </tr>
+            </table>
+
+
+            <!-- <div id="valueUab" class="preview-textfield reset display_value"> V</div> -->
+          </div>
+        </div>
+        <div class="box-footer clearfix">
+          Nhiệt độ hiện tại <span id="T1_Value">0</span>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-2">
+      <div class="box box-primary">
+        <div class="box-header with-border">
+          <i class="fa fa-thermometer-half"></i>
+          <h3 class="box-title">T2 [DEG.C]</h3>
+        </div>
+        <div class="box-body">
+          <div class="row">
+            <canvas id="T2" style="width: 100%"></canvas>
+            <!-- <div id="valueUab" class="preview-textfield reset display_value"> V</div> -->
+          </div>
+        </div>
+        <div class="box-footer clearfix">
+          Nhiệt độ hiện tại <span id="T2_Value">0</span>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-2">
+      <div class="box box-primary">
+        <div class="box-header with-border">
+          <i class="fa fa-thermometer-half"></i>
+          <h3 class="box-title">T3 [DEG.C]</h3>
+        </div>
+        <div class="box-body">
+          <div class="row">
+            <canvas id="T3" style="width: 100%"></canvas>
+            <!-- <div id="valueUab" class="preview-textfield reset display_value"> V</div> -->
+          </div>
+        </div>
+        <div class="box-footer clearfix">
+          Nhiệt độ hiện tại <span id="T3_Value">0</span>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-2">
+      <div class="box box-primary">
+        <div class="box-header with-border">
+          <i class="fa fa-thermometer-half"></i>
+          <h3 class="box-title">T4 [DEG.C]</h3>
+        </div>
+        <div class="box-body">
+          <div class="row">
+            <canvas id="T4" style="width: 100%"></canvas>
+            <!-- <div id="valueUab" class="preview-textfield reset display_value"> V</div> -->
+          </div>
+        </div>
+        <div class="box-footer clearfix">
+          Nhiệt độ hiện tại <span id="T4_Value">0</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-2">
+      <div class="box box-primary">
+        <div class="box-header with-border">
+          <i class="fa fa-thermometer-half"></i>
+          <h3 class="box-title">BỒN 1</h3>
+        </div>
+        <div class="box-body">
+          <div class="row">
+            <svg id="fillgauge1" style="width: 100%; height: 100%"></svg>
+            <!-- <div id="valueUab" class="preview-textfield reset display_value"> V</div> -->
+          </div>
+        </div>
+        <div class="box-footer clearfix">
+          Mức nước hiện tại là <span id="level1_value">0</span>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-2">
+      <div class="box box-primary">
+        <div class="box-header with-border">
+          <i class="fa fa-thermometer-half"></i>
+          <h3 class="box-title">BỒN 2</h3>
+        </div>
+        <div class="box-body">
+          <div class="row">
+            <svg id="fillgauge2" style="width: 100%; height: 100%"></svg>
+            <!-- <div id="valueUab" class="preview-textfield reset display_value"> V</div> -->
+          </div>
+        </div>
+        <div class="box-footer clearfix">
+          Mức nước hiện tại là <span id="level2_value">0</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Chart -->
+    <div class="col-md-8">
+      <div class="box box-default">
+        <div class="box-header with-border">
+          <i class="fa fa-bullhorn"></i>
+
+          <h3 class="box-title">Chart</h3>
+        </div>
+        
+        <div class="box-body">
+          <canvas id="mycanvas" width="800px"; height="200px"></canvas>
+          <br>
+          <button onclick="toggle(1)"><span id="btn_1"></span></button>
+          <button onclick="toggle(2)"><span id="btn_2"></span></button>
+          <button onclick="toggle(3)"><span id="btn_3"></span></button>
+          <button onclick="toggle(4)"><span id="btn_4"></span></button>
+          
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="box box-default">
+        <div class="box-header with-border">
+          <i class="fa fa-bullhorn"></i>
+
+          <h3 class="box-title">Product Info</h3>
+        </div>
+        <!-- /.box-header -->
+        <div class="box-body">
+          <div class="row">
+            <div class="col-md-6">
+              <h5>Good product</h5>
+            </div>
+            <div class="col-md-2">
+              <h5><span class="label label-info" id="MAIN_04_HMI_HMI_m_currentspeed" style="font-size: 20px">800</span></h5>
+            </div>
+            <div class="col-md-4">
+              <h5>pics</h5>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <h5>Defect product</h5>
+            </div>
+            <div class="col-md-2">
+              <h5><span class="label label-warning" id="MAIN_04_HMI_HMI_m_speedsetpointADD_1_" style="font-size: 20px">31</span></h5>
+            </div>
+            <div class="col-md-4">
+              <h5>pics</h5>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <h5>Percent good product</h5>
+            </div>
+            <div class="col-md-3">
+              <h5><span class="label label-success" id="MAIN_04_HMI_HMI_m_speedsetpointADD_2_" style="font-size: 20px">96.3%</span></h5>
+            </div>
+            <div class="col-md-3">
+              <h5>%</h5>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <h5>OEE</h5>
+            </div>
+            <div class="col-md-2">
+              <h5><span class="label label-info" id="MAIN_04_HMI_HMI_m_speedsetpointADD_3_" style="font-size: 20px">87.4</span></h5>
+            </div>
+            <div class="col-md-4">
+              <h5>%</h5>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <h5>Running time</h5>
+            </div>
+            <div class="col-md-2">
+              <h5><span class="label label-default" id="MAIN_04_HMI_HMI_m_speedsetpoint" style="font-size: 20px">1 539</span></h5>
+            </div>
+            <div class="col-md-4">
+              <h5>hours</h5>
+            </div>
+          </div>
+        </div>
+        <!-- /.box-body -->
+      </div>
+      <!-- /.box -->
+    </div>
+    
+  </div>
+
+  
+
+</section>
+
+<!-- <script src="bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
+ <script src="bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+ -->
+
+<% block('script', `
+
+<!-- DataTables -->
+ 
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+<script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+
+
+`) -%>
+
+<script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
+<script type="text/javascript">
+  // Khai bao bien toan cuc
+  var intT1 = 0;
+  var intT2 = 0;
+  var intT3, intT4, intB1, intB2;
+</script>
+<script type="text/javascript">
+  //var socket = io("http://localhost:3001");
+  var socket = io("http://124.158.10.133:3001");
+  socket.on("AlarmText", function(data)
+  {
+    console.log(data);
+    // datas.forEach(function(data){
+    //   $("#tb1").append(`
+    //   <tr>
+    //       <td>` + new Date() + `</td>
+    //       <td>` + data + `</td>
+    //     </tr>
+    //   `);
+    // })
+
+    if(data.action == "add"){
+      $("#tb1").append(`
+        <tr id="`+ data.id+`">
+          <td>` + new Date() + `</td>
+          <td><span class="label label-warning">` + data.text + `</span></td>
+        </tr>
+        `);
+    }
+    if (data.action == "del") {
+      $('#'+ data.id).remove();
+
+    }
+    
+    
+  });
+
+  socket.on("ProductText", function(data)
+  {
+    console.log(data);
+    if (parseFloat(data.Value) > 0) {
+      data.Value =  Math.round(parseFloat(data.Value) * 100)/100;
+    }
+    $("#"+data.TagName.replace('{', '_').replace('}','_')).html(data.Value);
+    
+    
+    // Math.round(n * 1000)/1000;
+  });
+
+  socket.on("dataReal", function(data)
+  {
+    //console.log(data);
+    intT1 = parseFloat(data.T1);
+    intT2 = parseFloat(data.T2);
+    intT3 = parseFloat(data.T3);
+    intT4 = parseFloat(data.T4);
+
+    // console.log(typeof(Math.round(parseFloat(intT1) * 100)/100))
+
+    gaugeT2.set(intT2); document.getElementById("T2_Value").innerHTML = intT2; arrLine[2].value = intT2;
+    gaugeT3.set(intT3); document.getElementById("T3_Value").innerHTML = intT3; arrLine[3].value = intT3;
+    gaugeT4.set(intT4); document.getElementById("T4_Value").innerHTML = intT4; arrLine[4].value = intT4;
+    // if (parseFloat(data.Value) > 0) {
+    //   data.Value =  Math.round(parseFloat(data.Value) * 100)/100;
+    // }
+    // $("#"+data.TagName.replace('{', '_').replace('}','_')).html(data.Value);
+    
+    // Update level
+    
+
+    
+    // Math.round(n * 1000)/1000;
+  });
+</script>
+
+<!-- Gause -->
+<script type="text/javascript">
+  var opts = {
+    lines: 5,
+    angle: -0.15,
+    lineWidth: 0.3,
+    pointer: {
+      length: 0.4,
+      strokeWidth: 0.035,
+      color: '#000000'
+    },
+    staticLabels: {
+      font: "10px sans-serif",  // Specifies font
+      labels: [0, 20, 40, 60, 80, 100],  // Print labels at these values
+      color: "#000000",  // Optional: Label text color
+      fractionDigits: 0  // Optional: Numerical precision. 0=round off.
+    },
+
+    limitMax: 'false', 
+    percentColors: [[0.0, "#a9d70b" ], [0.50, "#f9c802"], [1.0, "#ff0000"]], // !!!!
+    strokeColor: '#E0E0E0',
+    generateGradient: true
+  };
+
+  var opts_I = {
+    lines: 5,
+    angle: -0.15,
+    lineWidth: 0.3,
+    pointer: {
+      length: 0.4,
+      strokeWidth: 0.035,
+      color: '#000000'
+    },
+    staticLabels: {
+      font: "10px sans-serif",  // Specifies font
+      labels: [0, 20, 40, 60, 80, 100],  // Print labels at these values
+      color: "#000000",  // Optional: Label text color
+      fractionDigits: 0  // Optional: Numerical precision. 0=round off.
+    },
+
+    limitMax: 'false', 
+    percentColors: [[0.0, "#a9d70b" ], [0.50, "#f9c802"], [1.0, "#ff0000"]], // !!!!
+    strokeColor: '#E0E0E0',
+    generateGradient: true
+  };
+  
+  
+  var target = document.getElementById('T2');
+  var gaugeT2 = new Gauge(target).setOptions(opts);
+  gaugeT2.maxValue = 100;
+  gaugeT2.animationSpeed = 10;
+  gaugeT2.set(0);
+
+  var target = document.getElementById('T3');
+  var gaugeT3 = new Gauge(target).setOptions(opts);
+  gaugeT3.maxValue = 100;
+  gaugeT3.animationSpeed = 10;
+  gaugeT3.set(0);
+
+  var target = document.getElementById('T4');
+  var gaugeT4 = new Gauge(target).setOptions(opts);
+  gaugeT4.maxValue = 100;
+  gaugeT4.animationSpeed = 10;
+  gaugeT4.set(0);
+</script>
+
+<!-- Level -->
+<script type="text/javascript">
+  var level1 = 50;
+  var config1 = liquidFillGaugeDefaultSettings();
+  config1.displayPercent = false;
+
+  var config2 = liquidFillGaugeDefaultSettings();
+  config2.displayPercent = false;
+  var gauge2 = loadLiquidFillGauge("fillgauge2", 0, config2);
+  
+  function NewValue(){
+      if(Math.random() > .5){
+          return Math.round(Math.random()*100);
+      } else {
+          return (Math.random()*100).toFixed(1);
+      }
+  }
+</script>
+
+<script type="text/javascript">
+  var arrLine = [
+      objL0 = {isDiplay: 0},
+      objL1 = {isDiplay: 1, tooltipLabel: 'LINE 1', color: 'blue', value : 0 },
+      objL2 = {isDiplay: 1, tooltipLabel: 'LINE 2', color:'green', value : 0},
+      objL3 = {isDiplay: 1, tooltipLabel: 'LINE 3',color:'pink', value : 0},
+      objL4 = {isDiplay: 1, tooltipLabel: 'LINE 4', color:'red', value : 0},
+    ];
+
+  // Data
+  var line0 = new TimeSeries();
+  var line1 = new TimeSeries();
+  var line2 = new TimeSeries();
+  var line3 = new TimeSeries();
+  var line4 = new TimeSeries();
+
+  var arrLineInst = [line0, line1, line2, line3, line4 ];
+  for (let i = 1; i <= 4; i++) {
+    document.getElementById("btn_"+i).innerHTML = arrLine[i].tooltipLabel
+  }
+
+
+  
+  // function myYRangeFunction(range) {
+  //   // TODO implement your calculation using range.min and range.max
+  //   var min = 0;
+  //   var max = 1000;
+  //   return {min: min, max: max};
+  // }
+
+  // var chart = new SmoothieChart({millisPerPixel:21,maxValueScale:1.22,scaleSmoothing:0.098,grid:{fillStyle:'#ffffff',strokeStyle:'#c0c0c0',sharpLines:true,millisPerLine:3000},tooltip:true,timestampFormatter:SmoothieChart.timeFormatter,yRangeFunction:myYRangeFunction,horizontalLines:[{color:'#ffffff',lineWidth:1,value:0},{color:'#880000',lineWidth:2,value:3333},{color:'#880000',lineWidth:2,value:-3333}]}),
+  //     canvas = document.getElementById('smoothie-chart'),
+  //     series = new TimeSeries();
+
+  // chart.addTimeSeries(series, {lineWidth:2,strokeStyle:'#ff0000',fillStyle:'rgba(0,255,0,0.30)'});
+  // chart.streamTo(canvas, 500);
+  function myYRangeFunction(range) {
+    // TODO implement your calculation using range.min and range.max
+    var min = 0;
+    var max = 100;
+    return {min: min, max: max}
+  };
+
+
+
+  var smoothie = new SmoothieChart({
+                      tooltip:true,
+                      timestampFormatter:SmoothieChart.timeFormatter,
+                      grid: { strokeStyle:'rgb(215, 227, 245)', 
+                              fillStyle:'rgb(255, 255, 255)',
+                              lineWidth: 1, 
+                              millisPerLine: 250, 
+                              verticalSections: 6,
+                              millisPerLine:2000,
+                              maxValue:100,
+                              minValue:0,
+                              yRangeFunction:myYRangeFunction,
+                            },
+                      labels: { fillStyle:'rgb(60, 0, 0)' }
+                    });
+  smoothie.streamTo(document.getElementById("mycanvas"));
+
+  
+
+  // Add a random value to each line every second
+  setInterval(function() {
+    for (let i = 1; i <= 4 ; i++) {
+      if (arrLine[i].isDisplay == 1) {
+        arrLineInst[i].append(new Date().getTime(), arrLine[i].value , arrLine[i].tooltipLabel); //Math.random()*100
+      }
+    }
+
+  }, 1000);
+
+  // Add to SmoothieChart
+  //smoothie.addTimeSeries(arrLineInst[1], { strokeStyle:'rgb(0, 255, 0)', lineWidth:3, tooltipLabel:'LINE 1' });
+  //smoothie.addTimeSeries(arrLineInst[2], { strokeStyle:'rgb(255, 0, 255)', lineWidth:3, tooltipLabel:'LINE 2' }); //fillStyle:'rgba(0, 255, 0, 0.3)'
+
+  smoothie.streamTo(document.getElementById("mycanvas"), 1000 /*delay*/); 
+
+
+</script>
+
+<script type="text/javascript">
+  function toggle(i){
+    if(arrLine[i].isDisplay == 1){
+      arrLine[i].isDisplay = 0;
+      smoothie.removeTimeSeries(arrLineInst[i], { strokeStyle:'rgb(43, 76, 181)', lineWidth:3,  });
+      
+    }else{
+      arrLine[i].isDisplay = 1;
+      smoothie.addTimeSeries(arrLineInst[i], { strokeStyle:arrLine[i].color , lineWidth:3, tooltipLabel:arrLine[i].tooltipLabel });
+    }
+    
+  }
+
+  toggle(1);
+  toggle(2);
+  toggle(3);
+  toggle(4);
+
+  
+
+</script>

@@ -15,7 +15,7 @@ router.get('/', controller.history);
 //router.get('/chart/:id', controller.getChart);
 //router.post('/add', validate.postAdd, controller.postAdd);
 
-// router.get('/edit/:id', controller.getEdit);
+router.get('/real', controller.getReal);
 // router.post('/edit/:id', controller.postEdit);
 
 // router.get('/delete/:id', controller.getDelete);

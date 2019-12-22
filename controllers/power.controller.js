@@ -17,6 +17,22 @@ module.exports.history = function(req, res) {
 	})
 };
 
+module.exports.getReal = function(req, res) {
+	let startdate = new Date(req.body.startdate);
+  let enddate = new Date(req.body.enddate);
+
+	Power.find().then(function(powers){
+		res.render('power/real', {
+			powers: powers,
+			moment: moment,
+			startdate: startdate,
+			enddate: enddate,
+			pages: 1,
+			current: 1,
+		})
+	})
+};
+
 // module.exports.maps = function(req, res) {
 // 	Station.find().then(function(stations){
 // 		res.render('overview/maps', {

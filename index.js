@@ -149,7 +149,6 @@ server.on('published',function getdata(packet,client) {
 	}
 
 	//Data Nha may Trong
-	
 	if(packet.topic =='PLC/Data') 
 	{
 		indexCount ++;
@@ -186,6 +185,19 @@ server.on('published',function getdata(packet,client) {
 		
 		//console.log("Data: " +  saveData)
 		io.emit('dataReal', saveData);
+	}
+
+	//Data Nha may Trong Power
+	if(packet.topic =='PLC/Power') 
+	{
+		
+		//console.log("index count = " + indexCount)
+		let data = packet.payload.toString();
+		//let data_json = JSON.parse(data)
+
+		
+		console.log("Data: " +  data)
+		//io.emit('dataReal', saveData);
 	}
 
 });
