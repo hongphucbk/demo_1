@@ -1,8 +1,8 @@
 var mongoose = require('mongoose');
 var powerSchema = new mongoose.Schema({
 	area: String,
-	ud: Number,
-	up: Number,
+	ull: Number,
+	uln: Number,
 	i: Number,
 	w: Number,
 	timestamp: Date,

@@ -125,7 +125,6 @@ server.on('published',function getdata(packet,client) {
 		History.insertMany(jsondata, function(err) {
 			if (err) return handleError(err);
 		});
-
 	}
 
 	//Gateway A Nguyen (Aucontech)
@@ -190,17 +189,36 @@ server.on('published',function getdata(packet,client) {
 	//Data Nha may Trong Power
 	if(packet.topic =='PLC/Power') 
 	{
-		
 		//console.log("index count = " + indexCount)
 		let data = packet.payload.toString();
 		let data_json = JSON.parse(data)
 
-		
-		console.log("Data: " +  data)
+		console.log(data_json.area1.U_LN )
+
+		let savePower = {
+			ull: 1,
+			uln: 1,
+			i: 1,
+			w: 1,
+			area: 1,
+			timestamp: new Date()
+		};
+
+		console.log(savePower)
+
+		// if (indexCount > 200 ) {
+		// 	indexCount = 0;
+
+		// 	History.insertMany(saveData, function(err) {
+		// 		if (err) return handleError(err);
+		// 	});
+
+			
+		// }
+		//console.log("Data: " +  data)
 		//console.log("Data Area 1" + data_json.area1.ULN)
 		io.emit('dataPower', data_json);
 	}
-
 });
 
 //-------------------------------------------------------------------
