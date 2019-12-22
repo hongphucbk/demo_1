@@ -104,34 +104,31 @@
   </div>
 
 	<div class="row">
+    <% for(let i=1; i<= 12; i++){ %>
     <div class="col-md-2">
       <div class="box box-primary">
         <div class="box-header with-border">
           <i class="fa fa-thermometer-half"></i>
-          <h3 class="box-title">MSB. 01</h3>
+          <h3 class="box-title">MSB. <%= i %> </h3>
         </div>
         <div class="box-body">
           <div class="row" style="margin-left: 0px">
             <table id="customers">
               <tr>
-                <th>#</th>
-                <th>Value</th>
-              </tr>
-              <tr>
                 <td>Ud</td>
-                <td>380.4</td>
+                <td id="A<%=i%>U_LL">0</td>
               </tr>
               <tr>
                 <td>Up</td>
-                <td>221.7</td>
+                <td id="A<%=i%>U_LN">0</td>
               </tr>
               <tr>
-                <td>A</td>
-                <td>5</td>
+                <td>I</td>
+                <td id="A<%=i%>I">0</td>
               </tr>
               <tr>
                 <td>kWh</td>
-                <td>417.2</td>
+                <td id="A<%=i%>KWH">0</td>
               </tr>
             </table>
 
@@ -140,99 +137,15 @@
           </div>
         </div>
         <div class="box-footer clearfix">
-          Nhiệt độ hiện tại <span id="T1_Value">0</span>
+          Line Sản xuất  <span id=""><%= i %></span>
         </div>
       </div>
     </div>
-    <div class="col-md-2">
-      <div class="box box-primary">
-        <div class="box-header with-border">
-          <i class="fa fa-thermometer-half"></i>
-          <h3 class="box-title">T2 [DEG.C]</h3>
-        </div>
-        <div class="box-body">
-          <div class="row">
-            <canvas id="T2" style="width: 100%"></canvas>
-            <!-- <div id="valueUab" class="preview-textfield reset display_value"> V</div> -->
-          </div>
-        </div>
-        <div class="box-footer clearfix">
-          Nhiệt độ hiện tại <span id="T2_Value">0</span>
-        </div>
-      </div>
-    </div>
-    <div class="col-md-2">
-      <div class="box box-primary">
-        <div class="box-header with-border">
-          <i class="fa fa-thermometer-half"></i>
-          <h3 class="box-title">T3 [DEG.C]</h3>
-        </div>
-        <div class="box-body">
-          <div class="row">
-            <canvas id="T3" style="width: 100%"></canvas>
-            <!-- <div id="valueUab" class="preview-textfield reset display_value"> V</div> -->
-          </div>
-        </div>
-        <div class="box-footer clearfix">
-          Nhiệt độ hiện tại <span id="T3_Value">0</span>
-        </div>
-      </div>
-    </div>
-    <div class="col-md-2">
-      <div class="box box-primary">
-        <div class="box-header with-border">
-          <i class="fa fa-thermometer-half"></i>
-          <h3 class="box-title">T4 [DEG.C]</h3>
-        </div>
-        <div class="box-body">
-          <div class="row">
-            <canvas id="T4" style="width: 100%"></canvas>
-            <!-- <div id="valueUab" class="preview-textfield reset display_value"> V</div> -->
-          </div>
-        </div>
-        <div class="box-footer clearfix">
-          Nhiệt độ hiện tại <span id="T4_Value">0</span>
-        </div>
-      </div>
-    </div>
+    <% } %>
 
-    <div class="col-md-2">
-      <div class="box box-primary">
-        <div class="box-header with-border">
-          <i class="fa fa-thermometer-half"></i>
-          <h3 class="box-title">BỒN 1</h3>
-        </div>
-        <div class="box-body">
-          <div class="row">
-            <svg id="fillgauge1" style="width: 100%; height: 100%"></svg>
-            <!-- <div id="valueUab" class="preview-textfield reset display_value"> V</div> -->
-          </div>
-        </div>
-        <div class="box-footer clearfix">
-          Mức nước hiện tại là <span id="level1_value">0</span>
-        </div>
-      </div>
-    </div>
-    <div class="col-md-2">
-      <div class="box box-primary">
-        <div class="box-header with-border">
-          <i class="fa fa-thermometer-half"></i>
-          <h3 class="box-title">BỒN 2</h3>
-        </div>
-        <div class="box-body">
-          <div class="row">
-            <svg id="fillgauge2" style="width: 100%; height: 100%"></svg>
-            <!-- <div id="valueUab" class="preview-textfield reset display_value"> V</div> -->
-          </div>
-        </div>
-        <div class="box-footer clearfix">
-          Mức nước hiện tại là <span id="level2_value">0</span>
-        </div>
-      </div>
-    </div>
 
     <!-- Chart -->
-    <div class="col-md-8">
+    <!-- <div class="col-md-8">
       <div class="box box-default">
         <div class="box-header with-border">
           <i class="fa fa-bullhorn"></i>
@@ -259,7 +172,6 @@
 
           <h3 class="box-title">Product Info</h3>
         </div>
-        <!-- /.box-header -->
         <div class="box-body">
           <div class="row">
             <div class="col-md-6">
@@ -317,10 +229,8 @@
             </div>
           </div>
         </div>
-        <!-- /.box-body -->
       </div>
-      <!-- /.box -->
-    </div>
+    </div> -->
     
   </div>
 
@@ -382,149 +292,91 @@
     
   });
 
-  socket.on("ProductText", function(data)
-  {
-    console.log(data);
-    if (parseFloat(data.Value) > 0) {
-      data.Value =  Math.round(parseFloat(data.Value) * 100)/100;
-    }
-    $("#"+data.TagName.replace('{', '_').replace('}','_')).html(data.Value);
+  // socket.on("ProductText", function(data)
+  // {
+  //   console.log(data);
+  //   if (parseFloat(data.Value) > 0) {
+  //     data.Value =  Math.round(parseFloat(data.Value) * 100)/100;
+  //   }
+  //   $("#"+data.TagName.replace('{', '_').replace('}','_')).html(data.Value);
     
+    
+  //   // Math.round(n * 1000)/1000;
+  // });
+
+  // socket.on("dataReal", function(data)
+  // {
+  //   //console.log(data);
+  //   intT1 = parseFloat(data.T1);
+  //   intT2 = parseFloat(data.T2);
+  //   intT3 = parseFloat(data.T3);
+  //   intT4 = parseFloat(data.T4);
+
+  //   // console.log(typeof(Math.round(parseFloat(intT1) * 100)/100))
+
+  //   gaugeT2.set(intT2); document.getElementById("T2_Value").innerHTML = intT2; arrLine[2].value = intT2;
+  //   gaugeT3.set(intT3); document.getElementById("T3_Value").innerHTML = intT3; arrLine[3].value = intT3;
+  //   gaugeT4.set(intT4); document.getElementById("T4_Value").innerHTML = intT4; arrLine[4].value = intT4;
+  //   // if (parseFloat(data.Value) > 0) {
+  //   //   data.Value =  Math.round(parseFloat(data.Value) * 100)/100;
+  //   // }
+  //   // $("#"+data.TagName.replace('{', '_').replace('}','_')).html(data.Value);
+    
+  //   // Update level
+    
+
+    
+  //   // Math.round(n * 1000)/1000;
+  // });
+
+  socket.on("dataPower", function(datas)
+  {
+    
+    console.log(datas);
+    //console.log(datas.area1)
+    //console.log(datas.area1.U_LN)
+    
+    Object.entries(datas).forEach(function(data){
+
+      //console.log(data[0].substring(4, data[0].length))
+
+      document.getElementById("A"+data[1].Area+"U_LL").innerHTML = data[1].U_LL
+      document.getElementById("A"+data[1].Area+"U_LN").innerHTML = data[1].U_LN
+      document.getElementById("A"+data[1].Area+"I").innerHTML = data[1].I
+      document.getElementById("A"+data[1].Area+"KWH").innerHTML = data[1].KWH
+     
+
+    })
+
+
+    
+
     
     // Math.round(n * 1000)/1000;
   });
-
-  socket.on("dataReal", function(data)
-  {
-    //console.log(data);
-    intT1 = parseFloat(data.T1);
-    intT2 = parseFloat(data.T2);
-    intT3 = parseFloat(data.T3);
-    intT4 = parseFloat(data.T4);
-
-    // console.log(typeof(Math.round(parseFloat(intT1) * 100)/100))
-
-    gaugeT2.set(intT2); document.getElementById("T2_Value").innerHTML = intT2; arrLine[2].value = intT2;
-    gaugeT3.set(intT3); document.getElementById("T3_Value").innerHTML = intT3; arrLine[3].value = intT3;
-    gaugeT4.set(intT4); document.getElementById("T4_Value").innerHTML = intT4; arrLine[4].value = intT4;
-    // if (parseFloat(data.Value) > 0) {
-    //   data.Value =  Math.round(parseFloat(data.Value) * 100)/100;
-    // }
-    // $("#"+data.TagName.replace('{', '_').replace('}','_')).html(data.Value);
-    
-    // Update level
-    
-
-    
-    // Math.round(n * 1000)/1000;
-  });
 </script>
 
-<!-- Gause -->
-<script type="text/javascript">
-  var opts = {
-    lines: 5,
-    angle: -0.15,
-    lineWidth: 0.3,
-    pointer: {
-      length: 0.4,
-      strokeWidth: 0.035,
-      color: '#000000'
-    },
-    staticLabels: {
-      font: "10px sans-serif",  // Specifies font
-      labels: [0, 20, 40, 60, 80, 100],  // Print labels at these values
-      color: "#000000",  // Optional: Label text color
-      fractionDigits: 0  // Optional: Numerical precision. 0=round off.
-    },
-
-    limitMax: 'false', 
-    percentColors: [[0.0, "#a9d70b" ], [0.50, "#f9c802"], [1.0, "#ff0000"]], // !!!!
-    strokeColor: '#E0E0E0',
-    generateGradient: true
-  };
-
-  var opts_I = {
-    lines: 5,
-    angle: -0.15,
-    lineWidth: 0.3,
-    pointer: {
-      length: 0.4,
-      strokeWidth: 0.035,
-      color: '#000000'
-    },
-    staticLabels: {
-      font: "10px sans-serif",  // Specifies font
-      labels: [0, 20, 40, 60, 80, 100],  // Print labels at these values
-      color: "#000000",  // Optional: Label text color
-      fractionDigits: 0  // Optional: Numerical precision. 0=round off.
-    },
-
-    limitMax: 'false', 
-    percentColors: [[0.0, "#a9d70b" ], [0.50, "#f9c802"], [1.0, "#ff0000"]], // !!!!
-    strokeColor: '#E0E0E0',
-    generateGradient: true
-  };
-  
-  
-  var target = document.getElementById('T2');
-  var gaugeT2 = new Gauge(target).setOptions(opts);
-  gaugeT2.maxValue = 100;
-  gaugeT2.animationSpeed = 10;
-  gaugeT2.set(0);
-
-  var target = document.getElementById('T3');
-  var gaugeT3 = new Gauge(target).setOptions(opts);
-  gaugeT3.maxValue = 100;
-  gaugeT3.animationSpeed = 10;
-  gaugeT3.set(0);
-
-  var target = document.getElementById('T4');
-  var gaugeT4 = new Gauge(target).setOptions(opts);
-  gaugeT4.maxValue = 100;
-  gaugeT4.animationSpeed = 10;
-  gaugeT4.set(0);
-</script>
-
-<!-- Level -->
-<script type="text/javascript">
-  var level1 = 50;
-  var config1 = liquidFillGaugeDefaultSettings();
-  config1.displayPercent = false;
-
-  var config2 = liquidFillGaugeDefaultSettings();
-  config2.displayPercent = false;
-  var gauge2 = loadLiquidFillGauge("fillgauge2", 0, config2);
-  
-  function NewValue(){
-      if(Math.random() > .5){
-          return Math.round(Math.random()*100);
-      } else {
-          return (Math.random()*100).toFixed(1);
-      }
-  }
-</script>
 
 <script type="text/javascript">
-  var arrLine = [
-      objL0 = {isDiplay: 0},
-      objL1 = {isDiplay: 1, tooltipLabel: 'LINE 1', color: 'blue', value : 0 },
-      objL2 = {isDiplay: 1, tooltipLabel: 'LINE 2', color:'green', value : 0},
-      objL3 = {isDiplay: 1, tooltipLabel: 'LINE 3',color:'pink', value : 0},
-      objL4 = {isDiplay: 1, tooltipLabel: 'LINE 4', color:'red', value : 0},
-    ];
+  // var arrLine = [
+  //     objL0 = {isDiplay: 0},
+  //     objL1 = {isDiplay: 1, tooltipLabel: 'LINE 1', color: 'blue', value : 0 },
+  //     objL2 = {isDiplay: 1, tooltipLabel: 'LINE 2', color:'green', value : 0},
+  //     objL3 = {isDiplay: 1, tooltipLabel: 'LINE 3',color:'pink', value : 0},
+  //     objL4 = {isDiplay: 1, tooltipLabel: 'LINE 4', color:'red', value : 0},
+  //   ];
 
-  // Data
-  var line0 = new TimeSeries();
-  var line1 = new TimeSeries();
-  var line2 = new TimeSeries();
-  var line3 = new TimeSeries();
-  var line4 = new TimeSeries();
+  // // Data
+  // var line0 = new TimeSeries();
+  // var line1 = new TimeSeries();
+  // var line2 = new TimeSeries();
+  // var line3 = new TimeSeries();
+  // var line4 = new TimeSeries();
 
-  var arrLineInst = [line0, line1, line2, line3, line4 ];
-  for (let i = 1; i <= 4; i++) {
-    document.getElementById("btn_"+i).innerHTML = arrLine[i].tooltipLabel
-  }
+  // var arrLineInst = [line0, line1, line2, line3, line4 ];
+  // for (let i = 1; i <= 4; i++) {
+  //   document.getElementById("btn_"+i).innerHTML = arrLine[i].tooltipLabel
+  // }
 
 
   
@@ -541,43 +393,43 @@
 
   // chart.addTimeSeries(series, {lineWidth:2,strokeStyle:'#ff0000',fillStyle:'rgba(0,255,0,0.30)'});
   // chart.streamTo(canvas, 500);
-  function myYRangeFunction(range) {
-    // TODO implement your calculation using range.min and range.max
-    var min = 0;
-    var max = 100;
-    return {min: min, max: max}
-  };
+  // function myYRangeFunction(range) {
+  //   // TODO implement your calculation using range.min and range.max
+  //   var min = 0;
+  //   var max = 100;
+  //   return {min: min, max: max}
+  // };
 
 
 
-  var smoothie = new SmoothieChart({
-                      tooltip:true,
-                      timestampFormatter:SmoothieChart.timeFormatter,
-                      grid: { strokeStyle:'rgb(215, 227, 245)', 
-                              fillStyle:'rgb(255, 255, 255)',
-                              lineWidth: 1, 
-                              millisPerLine: 250, 
-                              verticalSections: 6,
-                              millisPerLine:2000,
-                              maxValue:100,
-                              minValue:0,
-                              yRangeFunction:myYRangeFunction,
-                            },
-                      labels: { fillStyle:'rgb(60, 0, 0)' }
-                    });
-  smoothie.streamTo(document.getElementById("mycanvas"));
+  // var smoothie = new SmoothieChart({
+  //                     tooltip:true,
+  //                     timestampFormatter:SmoothieChart.timeFormatter,
+  //                     grid: { strokeStyle:'rgb(215, 227, 245)', 
+  //                             fillStyle:'rgb(255, 255, 255)',
+  //                             lineWidth: 1, 
+  //                             millisPerLine: 250, 
+  //                             verticalSections: 6,
+  //                             millisPerLine:2000,
+  //                             maxValue:100,
+  //                             minValue:0,
+  //                             yRangeFunction:myYRangeFunction,
+  //                           },
+  //                     labels: { fillStyle:'rgb(60, 0, 0)' }
+  //                   });
+  // smoothie.streamTo(document.getElementById("mycanvas"));
 
   
 
   // Add a random value to each line every second
-  setInterval(function() {
-    for (let i = 1; i <= 4 ; i++) {
-      if (arrLine[i].isDisplay == 1) {
-        arrLineInst[i].append(new Date().getTime(), arrLine[i].value , arrLine[i].tooltipLabel); //Math.random()*100
-      }
-    }
+  // setInterval(function() {
+  //   for (let i = 1; i <= 4 ; i++) {
+  //     if (arrLine[i].isDisplay == 1) {
+  //       arrLineInst[i].append(new Date().getTime(), arrLine[i].value , arrLine[i].tooltipLabel); //Math.random()*100
+  //     }
+  //   }
 
-  }, 1000);
+  // }, 1000);
 
   // Add to SmoothieChart
   //smoothie.addTimeSeries(arrLineInst[1], { strokeStyle:'rgb(0, 255, 0)', lineWidth:3, tooltipLabel:'LINE 1' });
