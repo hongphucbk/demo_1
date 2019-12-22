@@ -193,10 +193,11 @@ server.on('published',function getdata(packet,client) {
 		
 		//console.log("index count = " + indexCount)
 		let data = packet.payload.toString();
-		//let data_json = JSON.parse(data)
+		let data_json = JSON.parse(data)
 
 		
 		console.log("Data: " +  data)
+		console.log("Data Area 1" + data_json.area1.ULN)
 		//io.emit('dataReal', saveData);
 	}
 
