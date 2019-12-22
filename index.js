@@ -106,9 +106,11 @@ server.on('ready', function(){
 
 
 var History = require('./models/history.model')
+var Power = require('./models/power.model')
 
 //find when a message .is received
 let indexCount = 0;
+let indexCountPower = 0;
 server.on('published',function getdata(packet,client) {
 	if(packet.topic =='monitor/svr_room') 
 	{
@@ -190,31 +192,39 @@ server.on('published',function getdata(packet,client) {
 	if(packet.topic =='PLC/Power') 
 	{
 		//console.log("index count = " + indexCount)
+		indexCountPower++;
+
 		let data = packet.payload.toString();
 		let data_json = JSON.parse(data)
 
-		console.log(data_json.area1.U_LN )
+		
+		if (indexCountPower > 10 ) {
+			let savePower1 = {
+				ull: data_json.area1.U_LL,
+				uln: data_json.area1.U_LN,
+				i: data_json.area1.I,
+				w: data_json.area1.KWH,
+				area: data_json.area1.Area,
+				timestamp: new Date()
+			};
+			let savePower2 = {
+				ull: data_json.area2.U_LL,
+				uln: data_json.area2.U_LN,
+				i: data_json.area2.I,
+				w: data_json.area2.KWH,
+				area: data_json.area2.Area,
+				timestamp: new Date()
+			};
 
-		let savePower = {
-			ull: 1,
-			uln: 1,
-			i: 1,
-			w: 1,
-			area: 1,
-			timestamp: new Date()
-		};
+			let arr = [savePower1,savePower2];
 
-		console.log(savePower)
-
-		// if (indexCount > 200 ) {
-		// 	indexCount = 0;
-
-		// 	History.insertMany(saveData, function(err) {
-		// 		if (err) return handleError(err);
-		// 	});
+			indexCountPower = 0;
+			Power.insertMany(arr, function(err) {
+				if (err) return handleError(err);
+			});
 
 			
-		// }
+		}
 		//console.log("Data: " +  data)
 		//console.log("Data Area 1" + data_json.area1.ULN)
 		io.emit('dataPower', data_json);
