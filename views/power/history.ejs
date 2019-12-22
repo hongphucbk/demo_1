@@ -94,11 +94,11 @@
         <% powers.forEach(function(val) { %>
         <tr>
           <td><%= moment(val.timestamp).format('DD-MMM-YYYY HH:mm:ss') %></td>
-          <td><%= val.T1 %></td>
-          <td><%= val.T2 %></td>
-          <td><%= val.T3 %></td>
-          <td><%= val.T4 %></td>
-          <td><%= val.B1 %></td>
+          <td><%= val.area %></td>
+          <td><%= val.ull %></td>
+          <td><%= val.uln %></td>
+          <td><%= val.i %></td>
+          <td><%= val.w %></td>
         </tr>
         <% }) %>
       </table>
@@ -107,7 +107,7 @@
             <% if (current == 1) { %>
                 <li class="disabled"><a>First</a></li>
             <% } else { %>
-                <li><a href="/history?page=1">First</a></li>
+                <li><a href="/power/history?page=1">First</a></li>
             <% } %>
             <% var i = (Number(current) > 5 ? Number(current) - 4 : 1) %>
             <% if (i !== 1) { %>
@@ -117,7 +117,7 @@
                 <% if (i == current) { %>
                     <li class="active"><a><%= i %></a></li>
                 <% } else { %>
-                    <li><a href="/history?page=<%= i %>"><%= i %></a></li>
+                    <li><a href="/power/history?page=<%= i %>"><%= i %></a></li>
                 <% } %>
                 <% if (i == Number(current) + 4 && i < pages) { %>
                     <li class="disabled"><a>...</a></li>
@@ -126,7 +126,7 @@
             <% if (current == pages) { %>
                 <li class="disabled"><a>Last</a></li>
             <% } else { %>
-                <li><a href="/history?page=<%= pages %>">Last</a></li>
+                <li><a href="/power/history?page=<%= pages %>">Last</a></li>
             <% } %>
         </ul>
       <% } %>

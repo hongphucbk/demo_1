@@ -7,6 +7,7 @@ var controller = require('../controllers/power.controller');
 //var validate = require('../validate/station.validate');
 
 router.get('/', controller.history);
+router.get('/history', controller.history);
 
 //router.get('/maps', controller.maps);
 

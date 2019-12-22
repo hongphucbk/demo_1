@@ -198,7 +198,7 @@ server.on('published',function getdata(packet,client) {
 		let data_json = JSON.parse(data)
 
 		
-		if (indexCountPower > 10 ) {
+		if (indexCountPower > 50 ) {
 			let savePower1 = {
 				ull: data_json.area1.U_LL,
 				uln: data_json.area1.U_LN,

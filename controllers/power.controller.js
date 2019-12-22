@@ -1,19 +1,25 @@
 var Power = require('../models/power.model');
 var moment = require('moment');
 
-module.exports.history = function(req, res) {
+module.exports.history = async function(req, res) {
 	let startdate = new Date(req.body.startdate);
   let enddate = new Date(req.body.enddate);
 
-	Power.find().then(function(powers){
-		res.render('power/history', {
-			powers: powers,
-			moment: moment,
-			startdate: startdate,
-			enddate: enddate,
-			pages: 1,
-			current: 1,
-		})
+  let perPage = 10;
+  let page = req.query.page || 1;
+
+  let powers = await Power.find().skip((perPage * page) - perPage).limit(perPage);
+	let recordsTotal  = await Power.countDocuments({});
+
+	let pages = Math.ceil(recordsTotal / perPage);
+	
+	res.render('power/history', {
+		powers: powers,
+		moment: moment,
+		startdate: startdate,
+		enddate: enddate,
+		pages: pages,
+		current: page,
 	})
 };
 
