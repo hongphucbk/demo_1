@@ -260,8 +260,81 @@ server.on('published',function getdata(packet,client) {
 					timestamp: new Date()
 				};
 
-				indexCountPower = 0;
 				let arr = [savePower4,savePower5, savePower6];
+
+				Power.insertMany(arr, function(err) {
+					if (err) return handleError(err);
+				});
+			}
+		}
+
+		if (data_json.area7) {
+			if (indexCountPower > 500 ) {
+				let savePower7 = {
+					ull: data_json.area7.U_LL,
+					uln: data_json.area7.U_LN,
+					i: data_json.area7.I,
+					w: data_json.area7.KWH,
+					area: data_json.area7.Area,
+					timestamp: new Date()
+				};
+				let savePower8 = {
+					ull: data_json.area8.U_LL,
+					uln: data_json.area8.U_LN,
+					i: data_json.area8.I,
+					w: data_json.area8.KWH,
+					area: data_json.area8.Area,
+					timestamp: new Date()
+				};
+
+				let savePower9 = {
+					ull: data_json.area9.U_LL,
+					uln: data_json.area9.U_LN,
+					i: data_json.area9.I,
+					w: data_json.area9.KWH,
+					area: data_json.area9.Area,
+					timestamp: new Date()
+				};
+
+				let arr = [savePower7,savePower8, savePower9];
+
+				Power.insertMany(arr, function(err) {
+					if (err) return handleError(err);
+				});
+			}
+		}
+
+		if (data_json.area10) {
+			if (indexCountPower > 500 ) {
+				let savePower10 = {
+					ull: data_json.area10.U_LL,
+					uln: data_json.area10.U_LN,
+					i: data_json.area10.I,
+					w: data_json.area10.KWH,
+					area: data_json.area10.Area,
+					timestamp: new Date()
+				};
+				let savePower11 = {
+					ull: data_json.area11.U_LL,
+					uln: data_json.area11.U_LN,
+					i: data_json.area11.I,
+					w: data_json.area11.KWH,
+					area: data_json.area11.Area,
+					timestamp: new Date()
+				};
+
+				let savePower12 = {
+					ull: data_json.area12.U_LL,
+					uln: data_json.area12.U_LN,
+					i: data_json.area12.I,
+					w: data_json.area12.KWH,
+					area: data_json.area12.Area,
+					timestamp: new Date()
+				};
+
+				indexCountPower = 0;
+
+				let arr = [savePower10,savePower11, savePower12];
 
 				Power.insertMany(arr, function(err) {
 					if (err) return handleError(err);

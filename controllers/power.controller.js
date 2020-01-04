@@ -37,10 +37,13 @@ module.exports.getReal = function(req, res) {
 };
 
 module.exports.getChart = function(req, res) {
-	Station.find().then(function(stations){
-		res.render('overview/maps', {
-			stations: stations
-		})
+	let startdate = new Date(req.body.startdate);
+  let enddate = new Date(req.body.enddate);
+
+	res.render('power/chart', {
+		moment: moment,
+		startdate: startdate,
+		enddate: enddate,
 	})
 };
 
