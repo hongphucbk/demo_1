@@ -223,6 +223,17 @@ server.on('published',function getdata(packet,client) {
 					timestamp: new Date()
 				};
 
+				let arr = [savePower1,savePower2, savePower3];
+
+				
+				Power.insertMany(arr, function(err) {
+					if (err) return handleError(err);
+				});
+			}
+		}
+
+		if (data_json.area4) {
+			if (indexCountPower > 500 ) {
 				let savePower4 = {
 					ull: data_json.area4.U_LL,
 					uln: data_json.area4.U_LN,
@@ -231,19 +242,33 @@ server.on('published',function getdata(packet,client) {
 					area: data_json.area4.Area,
 					timestamp: new Date()
 				};
+				let savePower5 = {
+					ull: data_json.area5.U_LL,
+					uln: data_json.area5.U_LN,
+					i: data_json.area5.I,
+					w: data_json.area5.KWH,
+					area: data_json.area5.Area,
+					timestamp: new Date()
+				};
 
-				let arr = [savePower1,savePower2, savePower3, savePower4 ];
+				let savePower6 = {
+					ull: data_json.area6.U_LL,
+					uln: data_json.area6.U_LN,
+					i: data_json.area6.I,
+					w: data_json.area6.KWH,
+					area: data_json.area6.Area,
+					timestamp: new Date()
+				};
 
 				indexCountPower = 0;
+				let arr = [savePower4,savePower5, savePower6];
+
 				Power.insertMany(arr, function(err) {
 					if (err) return handleError(err);
 				});
 			}
 		}
 		
-
-		//console.log("Data: " +  data)
-		//console.log("Data Area 1" + data_json.area1.ULN)
 		io.emit('dataPower', data_json);
 	}
 });

@@ -26,26 +26,23 @@ module.exports.history = async function(req, res) {
 module.exports.getReal = function(req, res) {
 	let startdate = new Date(req.body.startdate);
   let enddate = new Date(req.body.enddate);
-
-	Power.find().then(function(powers){
-		res.render('power/real', {
-			powers: powers,
+		
+	res.render('power/real', {
 			moment: moment,
 			startdate: startdate,
 			enddate: enddate,
 			pages: 1,
 			current: 1,
-		})
 	})
 };
 
-// module.exports.maps = function(req, res) {
-// 	Station.find().then(function(stations){
-// 		res.render('overview/maps', {
-// 			stations: stations
-// 		})
-// 	})
-// };
+module.exports.getChart = function(req, res) {
+	Station.find().then(function(stations){
+		res.render('overview/maps', {
+			stations: stations
+		})
+	})
+};
 
 // module.exports.getDetail = async function(req, res) {
 // 	var id = req.params.id;
