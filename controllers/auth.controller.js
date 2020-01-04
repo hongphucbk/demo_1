@@ -69,9 +69,6 @@ module.exports.apiPostLogin = function(req, res) {
 
 };
 
-
-
-
 module.exports.add = function(req, res) {
 	User.find().then(function(users){
 		res.render('users/add', {

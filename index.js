@@ -180,8 +180,6 @@ server.on('published',function getdata(packet,client) {
 			History.insertMany(saveData, function(err) {
 				if (err) return handleError(err);
 			});
-
-			
 		}
 		
 		//console.log("Data: " +  saveData)
@@ -198,7 +196,7 @@ server.on('published',function getdata(packet,client) {
 		let data_json = JSON.parse(data)
 
 		if (data_json.area1) {
-			if (indexCountPower > 100 ) {
+			if (indexCountPower > 500 ) {
 				let savePower1 = {
 					ull: data_json.area1.U_LL,
 					uln: data_json.area1.U_LN,
@@ -216,7 +214,25 @@ server.on('published',function getdata(packet,client) {
 					timestamp: new Date()
 				};
 
-				let arr = [savePower1,savePower2];
+				let savePower3 = {
+					ull: data_json.area3.U_LL,
+					uln: data_json.area3.U_LN,
+					i: data_json.area3.I,
+					w: data_json.area3.KWH,
+					area: data_json.area3.Area,
+					timestamp: new Date()
+				};
+
+				let savePower4 = {
+					ull: data_json.area4.U_LL,
+					uln: data_json.area4.U_LN,
+					i: data_json.area4.I,
+					w: data_json.area4.KWH,
+					area: data_json.area4.Area,
+					timestamp: new Date()
+				};
+
+				let arr = [savePower1,savePower2, savePower3, savePower4 ];
 
 				indexCountPower = 0;
 				Power.insertMany(arr, function(err) {
