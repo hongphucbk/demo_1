@@ -32,16 +32,16 @@
 	<div class="panel-heading">
     
       <div class="row">
-        <form action="/history" method="post">
+        <form action="/power/history" method="post">
         <div class="col-md-1">
           <label style="float: right;">Start</label>
         </div>
-        <div class='col-md-3'>
+        <div class='col-md-2'>
           <div class="form-group">
             <div class='input-group date' id='datetimepicker6'>
               <input type='text' class="form-control" name="startdate" value="<%= moment(startdate).format('DD-MMM-YYYY HH:mm:ss') %>" />
               <span class="input-group-addon">
-                            <span class="glyphicon glyphicon-calendar"></span>
+                <span class="glyphicon glyphicon-calendar"></span>
               </span>
             </div>
           </div>
@@ -49,7 +49,7 @@
         <div class="col-md-1">
           <label style="float: right;">End</label>
         </div>
-        <div class='col-md-3'>
+        <div class='col-md-2'>
           <div class="form-group">
             <div class='input-group date' id='datetimepicker7'>
               <input type='text' class="form-control" name="enddate" value="<%= moment(enddate).format('DD-MMM-YYYY HH:mm:ss') %>"/>
@@ -59,6 +59,19 @@
             </div>
           </div>
         </div>
+        <div class="col-md-1">
+          <label style="float: right;">Station</label>
+        </div>
+        <div class='col-md-1'>
+          <div class="form-group">
+            <select class='form-control' name="area" id="area">
+              <% for(var i=1; i<= 12; i++) {%>
+                <option value="<%= i %>"><%= i %></option>
+              <% } %>
+            </select>
+          </div>
+        </div>
+
         <div class="col-md-1">
           <input type="submit" name="" class="form-control" value="View">
         </div>

@@ -24,7 +24,7 @@
 <!-- Content Header (Page header) -->
 <section class="content-header">
   <h1>
-    Power
+    POWER
     <small>Chart</small>
   </h1>
   <ol class="breadcrumb">
@@ -69,28 +69,15 @@
             <% } %>
           </select>
         </div>
+      </div>  
+
+      <div class="col-md-1">
+        <button onclick="updateChart()" class="form-control">View</button>
       </div>
 
         <div class="col-md-1">
-          <label style="float: right;">Station</label>
-        </div>
-        <div class='col-md-2'>
-          <div class="form-group">
-            <select class='form-control' name="area" id="area">
-              <% for(var i=1; i<= 12; i++) {%>
-                <option value="<%= i %>"><%= i %></option>
-              <% } %>
-            </select>
-          </div>
-        </div>
-        
-        <div class="col-md-1">
-          <button onclick="updateChart()" class="form-control">View</button>
-        </div>
-
-        <div class="col-md-1">
-        	<a href="/power/chart">
-          	<button class="form-control">Today</button>
+        	<a href="/power/allchart">
+          	<button class="form-control">Reset</button>
           </a>
         </div>
         
@@ -110,8 +97,6 @@
         
         <div class="box-body">
           <canvas id="myChart"></canvas>
-  
-          
         </div>
       </div>
     </div>
@@ -136,23 +121,15 @@
 `) -%>
 
 <script type="text/javascript">
-	
-
-</script>
-
-<script type="text/javascript">
 	let labels = []; let vals = []; let tblData = [];
   var ctx = document.getElementById('myChart').getContext('2d');
+  let datasheets = []
+  // {data:[]},{data:[]}, {data:[]}, {data:[]}, {data:[]},{data:[]} 
 	var chart = new Chart(ctx, {
-	    type: 'bar',
+	    type: 'line',
 	    data: {
 	        labels: [],
-	        datasets: [{
-	            label: "Station " + 1,
-	            backgroundColor: 'rgb(255, 99, 132)',
-	            borderColor: 'rgb(255, 99, 150)',
-	            data: []
-	        }]
+	        datasets: datasheets,
 	    },
 	    // Configuration options go here
 	    options: {
@@ -165,65 +142,89 @@
 	    }
 	});
 
-
+  var coloR = [];
+  var dynamicColors = function() {
+    var r = Math.floor(Math.random() * 255);
+    var g = Math.floor(Math.random() * 255);
+    var b = Math.floor(Math.random() * 255);
+    return "rgb(" + r + "," + g + "," + b + ")";
+  };
+  
 	$.ajax({
-    url: '/power/apigetdata',
+    url: '/power/apigetalldata',
     method: 'post',
-    data: { area: $('#area').val(), year: $('#year').val(), month: $('#month').val() }
+    data: { area: $('#area').val(), year: $('#year').val(), month: $('#month').val()  }
     }).done(function(res) {
-        $('#loadding').hide();
         if (true) {
-	        //console.log(res);
-	        res.forEach(function(dt){
-	        	labels.push(dt.date)
-	        	vals.push(dt.value)
-
-	        	tblData.push({ time: dt.date, val:dt.value})
-	        })
-	        //console.log(vals)
-	        chart.data.labels = labels;
-	        chart.data.datasets[0].data = vals;
-          
-
-	      	chart.update();
-	      	
-	      	updateDigitalData(tblData);
-
-		    } else {
+          // Bật span loaddding lên
           $('#loadding').hide();
-		      console.log('error...ajax');
+	        //console.log(res);
+	        res.forEach(function(dt2){
+            let hihi = dt2.data;
+            vals = [];
+            labels = [];
+            
+            hihi.forEach(function(dt){
+              labels.push(dt.date)
+              vals.push(dt.value)
+              //tblData.push({ time: dt.date, val:dt.value})
+            })
+            //console.log(vals)
+            //console.log(labels)
+            chart.data.labels = labels;
+            chart.data.datasets.push({data:[]})
+            chart.data.datasets[(dt2.area - 1)].borderColor = dynamicColors()
+            chart.data.datasets[(dt2.area - 1)].data = vals;
+            chart.data.datasets[(dt2.area - 1)].label = "Station " + dt2.area;
+          })
+	      	chart.update();
+		    } else {
+          // Bật span loaddding lên
+          $('#loadding').hide();
+		        console.log('error...ajax');
 		    }
 		  });
 
   function updateChart(){
-  	let area = $('#area').val();
+    // Bật span loaddding lên
+    $('#loadding').show();
+
     let year = $('#year').val();
     let month = $('#month').val();
 
-    $('#loadding').show();
-
   	$.ajax({
-    url: '/power/apigetdata',
+    url: '/power/apigetalldata',
     method: 'post',
-    data: { area: area, year: year, month: month }
+    data: { year: year, month: month }
     }).done(function(res) {
         $('#loadding').hide();
         if (true) {
         	labels = []; vals = []; tblData = [];
-	        //console.log(res);
-	        res.forEach(function(dt){
-	        	labels.push(dt.date)
-	        	vals.push(dt.value)
-	        	tblData.push({ time: dt.date, val:dt.value})
-	        })
-	      	chart.data.datasets[0].data = vals;
-          chart.data.datasets[0].label = "Station " + area;
-	      	chart.update();
-	      	updateDigitalData(tblData);
+
+          res.forEach(function(dt2){
+            let hihi = dt2.data;
+            vals = [];
+            labels = [];
+            
+            hihi.forEach(function(dt){
+              labels.push(dt.date)
+              vals.push(dt.value)
+              //tblData.push({ time: dt.date, val:dt.value})
+            })
+            //console.log(vals)
+            //console.log(labels)
+            chart.data.labels = labels;
+            //chart.data.datasets.push({data:[]})
+            chart.data.datasets[(dt2.area - 1)].borderColor = dynamicColors()
+            chart.data.datasets[(dt2.area - 1)].data = vals;
+            chart.data.datasets[(dt2.area - 1)].label = "Station " + dt2.area;
+          })
+          chart.update();
+	      	//updateDigitalData(tblData);
 	        //window.location.reload();
 		    } else {
-          $('#loadding').hide();
 		        console.log('error...ajax');
+            $('#loadding').hide();
 		    }
 		  });
   }

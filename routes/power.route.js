@@ -8,7 +8,15 @@ var controller = require('../controllers/power.controller');
 
 router.get('/', controller.history);
 router.get('/history', controller.history);
+router.post('/history', controller.postHistory);
+
+
 router.get('/chart', controller.getChart);
+
+router.post('/apigetdata', controller.apiGetData);
+
+router.get('/allchart', controller.getAllChart);
+router.post('/apigetalldata', controller.apiGetAllData);
 
 //router.get('/maps', controller.maps);
 

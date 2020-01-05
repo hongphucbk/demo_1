@@ -174,7 +174,7 @@ server.on('published',function getdata(packet,client) {
 			timestamp: new Date()
 		};
 
-		if (indexCount > 200 ) {
+		if (indexCount > 300 ) {
 			indexCount = 0;
 
 			History.insertMany(saveData, function(err) {
@@ -187,6 +187,7 @@ server.on('published',function getdata(packet,client) {
 	}
 
 	//Data Nha may Trong Power
+	let sampleIndex = 1000;
 	if(packet.topic =='PLC/Power') 
 	{
 		//console.log("index count = " + indexCount)
@@ -196,7 +197,7 @@ server.on('published',function getdata(packet,client) {
 		let data_json = JSON.parse(data)
 
 		if (data_json.area1) {
-			if (indexCountPower > 500 ) {
+			if (indexCountPower > sampleIndex ) {
 				let savePower1 = {
 					ull: data_json.area1.U_LL,
 					uln: data_json.area1.U_LN,
@@ -233,7 +234,7 @@ server.on('published',function getdata(packet,client) {
 		}
 
 		if (data_json.area4) {
-			if (indexCountPower > 500 ) {
+			if (indexCountPower > sampleIndex ) {
 				let savePower4 = {
 					ull: data_json.area4.U_LL,
 					uln: data_json.area4.U_LN,
@@ -269,7 +270,7 @@ server.on('published',function getdata(packet,client) {
 		}
 
 		if (data_json.area7) {
-			if (indexCountPower > 500 ) {
+			if (indexCountPower > sampleIndex ) {
 				let savePower7 = {
 					ull: data_json.area7.U_LL,
 					uln: data_json.area7.U_LN,
@@ -305,7 +306,7 @@ server.on('published',function getdata(packet,client) {
 		}
 
 		if (data_json.area10) {
-			if (indexCountPower > 500 ) {
+			if (indexCountPower > sampleIndex ) {
 				let savePower10 = {
 					ull: data_json.area10.U_LL,
 					uln: data_json.area10.U_LN,
