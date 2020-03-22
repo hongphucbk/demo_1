@@ -208,7 +208,7 @@ server.on('published',function getdata(packet,client) {
 				if (err) return handleError(err);
 			});
 		}
-		console.log('indexCountReal = ', indexCountReal)
+		// console.log('indexCountReal = ', indexCountReal)
 		if (indexCountReal > 10 ) {
 			indexCountReal = 0;
 
