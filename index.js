@@ -215,7 +215,7 @@ server.on('published',function getdata(packet,client) {
 			// 	if (err) return handleError(err);
 			// });
 
-			TempHum.update({label: "phuctruong"}, saveData, {upsert: true}, function (err) {
+			TempHum.findOneAndUpdate({label: "phuctruong"}, saveData, {upsert: true}, function (err) {
 				if (err) return handleError(err);
 			})
 		}
