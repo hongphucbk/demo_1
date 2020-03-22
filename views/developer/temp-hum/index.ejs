@@ -1,0 +1,126 @@
+<% layout('../../layout/index') %>
+<% block('css', `
+
+  <!-- DataTables -->
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+
+  <!-- Optional theme -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.min.css" />
+
+  <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.js"></script>
+  <script type="text/javascript" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+  <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+
+`) %>
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+  <h1>
+    API
+    <small>Introduce</small>
+  </h1>
+  <ol class="breadcrumb">
+    <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+    <li class="active">Introduce</li>
+  </ol>
+</section>
+
+<!-- Main content -->
+<section class="content container-fluid">
+	<div class="panel-heading">
+    <!-- <a href="/inverter/setting/add">Add config</a> -->
+	</div>
+  <div class="box">
+    <div class="box-header">
+      <!-- <h3 class="box-title">Setting</h3> -->
+    </div>
+    <!-- /.box-header -->
+    <div class="box-body no-padding">
+      <div class="col-md-2">
+        <h4>Nhiệt độ - Độ ẩm</h4>
+
+      </div>
+      <div class="col-md-10">
+        <h4>Api Endpoint</h4>
+        <div class="alert alert-success" role="alert" >
+          <span style="color: blue; font-weight: bold;">http://solution.phuctruong.net:3000/api/temphum/real</span>
+        </div>
+
+        <p>Method: <span class="label label-warning">POST</span></p>
+        <p>Header: <span class="label label-default">{Content-Type: application/x-www-form-urlencoded}</span></p>
+        <p>Response</p>
+        <span class="label label-success">Success</span>
+        <code class="prettyprint">
+          {
+            "result": 1,
+            "data": {
+                "T1": 36.3,
+                "T2": 36.1,
+                "T3": 35,
+                "T4": 35.8,
+                "H1": 43.9,
+                "H2": 45.4,
+                "updated_at": "2020-03-22T07:06:19.109Z"
+            }
+          }
+
+
+        </code>
+        <br>
+        <span class="label label-danger">Error</span>
+        <code class="prettyprint">
+          {
+            "result": 0,
+            "err": "Error Message"
+          }
+
+
+        </code>
+        <br>
+        <br>
+      </div>
+
+      
+      
+
+    </div>
+  </div>
+
+  <div class="box">
+    <div class="box-header">
+      <h3 class="box-title">Information</h3>
+    </div>
+    <!-- /.box-header -->
+    <div class="box-body no-padding">
+      <div class="col-md-12">
+        <h5>Để yêu cầu thêm các api vui lòng liên hệ admin</h5>
+
+      </div>
+      
+
+
+      
+      
+
+    </div>
+  </div>
+	
+
+
+</section>
+
+<!-- <script src="bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
+ <script src="bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+
+   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+ -->
+
+<% block('script', `
+
+  
+  
+
+`) -%>

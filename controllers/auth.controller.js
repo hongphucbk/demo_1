@@ -60,7 +60,7 @@ module.exports.apiPostLogin = function(req, res) {
 		if (!user) {
 			result = {result: 0, username: 'Login'}
 		}else{
-			result = {result: 1, username: user.name, created_at: user.created_at}			
+			result = {result: 1, username: user.name, created_at: user.created_at, now: new Date().toLocaleDateString() + "-" + new Date().toLocaleTimeString() }			
 		}
 		console.log(result)
 		res.json(result);

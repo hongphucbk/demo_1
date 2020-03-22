@@ -3,14 +3,13 @@ var router = express.Router();
 
 // router.use(express.static(__dirname + './public'));
 
-var controller = require('../controllers/temphum.controller');
+var controller = require('../../controllers/developer/temp-hum.controller');
 //var validate = require('../validate/station.validate');
 
-router.get('/real', controller.getData);
-router.post('/real', controller.postData);
+router.get('/', controller.getIndex);
 
-// router.get('/v2', controller.list2);
-// router.post('/l2', controller.postList2);
+// router.get('/add', controller.getAdd);
+// router.post('/add', controller.postAdd);
 
 // router.get('/edit/:id', controller.getEdit);
 // router.post('/edit/:id', controller.postEdit);

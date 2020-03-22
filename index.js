@@ -57,6 +57,7 @@ var demoRouter = require('./routes/demo.route');
 var inverterRouter = require('./routes/inverter.route');
 
 var developerIntroRouter = require('./routes/developer/introduce.route');
+var developerTempHumRouter = require('./routes/developer/temphum.route');
 
 //-------------------------------------------------------------------
 
@@ -83,7 +84,7 @@ app.use('/inverter', inverterRouter);
 
 app.group("/developer", (router) => {
   router.use('/introduce', developerIntroRouter);
-  // router.use('/station', stationRouter);
+  router.use('/temp-hum', developerTempHumRouter);
   // router.use('/datainfor', datainforRouter);
   // router.use('/parameter', parameterRouter);
   // router.use('/station-para', stationParaRouter);
@@ -200,7 +201,7 @@ server.on('published',function getdata(packet,client) {
 			timestamp: new Date()
 		};
 
-		if (indexCount > 300 ) {
+		if (indexCount > 150 ) {
 			indexCount = 0;
 
 			History.insertMany(saveData, function(err) {
