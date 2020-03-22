@@ -97,8 +97,10 @@ module.exports.apiGetData = async function(req, res) {
 		let beginDay = new Date(strYear + "-" + (strMonth + 1)  +"-" + i  +" 00:00:01")
 	  let endDay = new Date(strYear + "-" + (strMonth + 1) +"-" + i  + " 23:59:59") 
 		
-		//console.log(endDay)
-		//console.log("=====================")
+		console.log("=====================")
+		console.log("Begin day = " + beginDay)
+		console.log("End day = " + endDay)
+		
 		//let powerFirst = await Power.findOne({timestamp: { $gte: beginDay , $lte: endDay}, area : area}).sort({ _id: 1 })
 		//let powerLast = await Power.findOne({timestamp: { $gte: beginDay , $lte: endDay}, area : area}).sort({ _id: -1 });
 		
@@ -106,10 +108,12 @@ module.exports.apiGetData = async function(req, res) {
 		let powerFirst = powers[0];
 		let powerLast = powers.reverse()[0];
 
+		console.log(powerFirst, powerLast)
+
 		let valueFirst = powerFirst ? powerFirst.w : 0;
 		let valueLast = powerLast ? powerLast.w : 0;
 		
-		//console.log(valueFirst + " -- " + valueLast + " use: " + (valueLast - valueFirst))
+		console.log(valueFirst + " -- " + valueLast + " use: " + (valueLast - valueFirst))
 		
 		let temp_data = 
 		{

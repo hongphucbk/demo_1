@@ -97,7 +97,7 @@
       </div>
 	</div>
 
-  <div id="loadding" style="color:red; text-align: center;">Hệ thống đang tính toán dữ liệu, vui lòng đợi chút xíu nha...</div>
+  <div id="loadding" style="color:red; text-align: center;">The system is processing data. Please wait a minute...</div>
 
 	<div class="row">
     <div class="col-md-10">
@@ -173,7 +173,7 @@
     }).done(function(res) {
         $('#loadding').hide();
         if (true) {
-	        //console.log(res);
+	        console.log(res);
 	        res.forEach(function(dt){
 	        	labels.push(dt.date)
 	        	vals.push(dt.value)
@@ -210,7 +210,7 @@
         $('#loadding').hide();
         if (true) {
         	labels = []; vals = []; tblData = [];
-	        //console.log(res);
+	        console.log("res = " + res);
 	        res.forEach(function(dt){
 	        	labels.push(dt.date)
 	        	vals.push(dt.value)

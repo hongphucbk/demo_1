@@ -1,9 +1,14 @@
 require('dotenv').config();
+require('express-group-routes');
+const normalizePort = require('normalize-port');
+
 var bodyParser = require('body-parser')
 
 const express = require('express')
 const app = express()
-const port = 3000
+const port = normalizePort(process.env.PORT || 3100);
+
+//app.set('port', process.env.PORT || 3000);
 
 var http = require('http').createServer(app);
 var io = require('socket.io')(http);
@@ -15,9 +20,12 @@ app.use((req, res, next) => {
 
 //Khai bao api route
 var apiHistoryRouter = require('./api/routes/history.route');
+var apiTempHumRouter = require('./api/routes/temphum.route');
+
 //==================
 //--use api route
 app.use('/api/history', apiHistoryRouter);
+app.use('/api/temphum', apiTempHumRouter);
 
 
 app.use(bodyParser.json()) // for parsing application/json
@@ -45,6 +53,10 @@ var emailRouter = require('./routes/email.route');
 var historyRouter = require('./routes/history.route');
 var realRouter = require('./routes/real.route');
 var powerRouter = require('./routes/power.route');
+var demoRouter = require('./routes/demo.route');
+var inverterRouter = require('./routes/inverter.route');
+
+var developerIntroRouter = require('./routes/developer/introduce.route');
 
 //-------------------------------------------------------------------
 
@@ -66,6 +78,17 @@ app.use('/email', emailRouter);
 app.use('/history', historyRouter);
 app.use('/real', realRouter);
 app.use('/power', powerRouter);
+app.use('/demo', demoRouter);
+app.use('/inverter', inverterRouter);
+
+app.group("/developer", (router) => {
+  router.use('/introduce', developerIntroRouter);
+  // router.use('/station', stationRouter);
+  // router.use('/datainfor', datainforRouter);
+  // router.use('/parameter', parameterRouter);
+  // router.use('/station-para', stationParaRouter);
+  //router.get("/users", loginController.store); // /api/v1/login 
+});
 
 //-------------------------------------------------------------------
 
@@ -107,9 +130,10 @@ server.on('ready', function(){
 
 var History = require('./models/history.model')
 var Power = require('./models/power.model')
+var TempHum = require('./models/temphum.model')
 
 //find when a message .is received
-let indexCount = 0;
+let indexCount = 0; let indexCountReal = 0;
 let indexCountPower = 0;
 server.on('published',function getdata(packet,client) {
 	if(packet.topic =='monitor/svr_room') 
@@ -153,6 +177,7 @@ server.on('published',function getdata(packet,client) {
 	if(packet.topic =='PLC/Data') 
 	{
 		indexCount ++;
+		indexCountReal ++;
 		//console.log("index count = " + indexCount)
 		let data = packet.payload.toString();
 		let data_json = JSON.parse(data)
@@ -165,6 +190,7 @@ server.on('published',function getdata(packet,client) {
 		let B2 = data_json.Humi_G;
 
 		let saveData = {
+			label: "phuctruong",
 			T1: T1,
 			T2: T2,
 			T3: T3,
@@ -180,6 +206,18 @@ server.on('published',function getdata(packet,client) {
 			History.insertMany(saveData, function(err) {
 				if (err) return handleError(err);
 			});
+		}
+
+		if (indexCountReal > 10 ) {
+			indexCountReal = 0;
+
+			// TempHum.insertMany(saveData, function(err) {
+			// 	if (err) return handleError(err);
+			// });
+
+			TempHum.update({label: "phuctruong"}, saveData, {upsert: true}, function (err) {
+				if (err) return handleError(err);
+			})
 		}
 		
 		//console.log("Data: " +  saveData)
@@ -345,6 +383,17 @@ server.on('published',function getdata(packet,client) {
 		
 		io.emit('dataPower', data_json);
 	}
+
+	if(packet.topic =='iot-2/evt/ewondata/fmt/json') 
+	{
+		let data = packet.payload.toString();
+		let data_json = JSON.parse(data);
+		console.log(data_json.d);
+		let temp_data = {
+
+		}
+		io.emit('dataDemo', data_json.d);
+	}
 });
 
 //-------------------------------------------------------------------
@@ -406,4 +455,5 @@ if (false) {
 
 	});
 }
+
 
