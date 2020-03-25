@@ -49,14 +49,13 @@ module.exports.getDataRandom = async function(req, res) {
 		if (err) {
 			res.json({result: 0, err: err.message})
 		} else {
-
 			let dt = {
-				T1: parseInt(data.T1) + Math.random().toFixed(2),
-				T2: parseInt(data.T2) + Math.random().toFixed(2),
-				T3: parseInt(data.T3) + Math.random().toFixed(2),
-				T4: parseInt(data.T4) + Math.random().toFixed(2),
-				H1: parseInt(data.H1) + Math.random().toFixed(2),
-				H2: parseInt(data.H2) + Math.random().toFixed(2),
+				T1: parseInt(data.T1) + +Math.random().toFixed(2),
+				T2: parseInt(data.T2) + +(Math.random().toFixed(2)),
+				T3: parseInt(data.T3) + +Math.random().toFixed(2),
+				T4: parseInt(data.T4) + +Math.random().toFixed(2),
+				H1: parseInt(data.B1) + +Math.random().toFixed(2),
+				H2: parseInt(data.B2) + +Math.random().toFixed(2),
 				updated_at: data.timestamp
 			}
 			res.json({result: 1, data: dt})
