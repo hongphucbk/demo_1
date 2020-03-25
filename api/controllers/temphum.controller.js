@@ -27,12 +27,12 @@ module.exports.postData = async function(req, res) {
 		} else {
 
 			let dt = {
-				T1: data.T1,
-				T2: data.T2,
-				T3: data.T3,
-				T4: data.T4,
-				H1: data.B1,
-				H2: data.B2,
+				T1: parseInt(data.T1) + Math.random().toFixed(2),
+				T2: parseInt(data.T2) + Math.random().toFixed(2),
+				T3: parseInt(data.T3) + Math.random().toFixed(2),
+				T4: parseInt(data.T4) + Math.random().toFixed(2),
+				H1: parseInt(data.H1) + Math.random().toFixed(2),
+				H2: parseInt(data.H2) + Math.random().toFixed(2),
 				updated_at: data.timestamp
 			}
 			res.json({result: 1, data: dt})
