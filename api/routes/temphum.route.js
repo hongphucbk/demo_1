@@ -9,6 +9,8 @@ var controller = require('../controllers/temphum.controller');
 router.get('/real', controller.getData);
 router.post('/real', controller.postData);
 
+router.get('/real/rd', controller.getDataRandom);
+
 // router.get('/v2', controller.list2);
 // router.post('/l2', controller.postList2);
 

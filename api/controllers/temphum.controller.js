@@ -20,7 +20,31 @@ module.exports.getData = async function(req, res) {
 	});	
 };
 
+
+
+
 module.exports.postData = async function(req, res) {
+	TempHum.findOne(function (err, data) {
+		if (err) {
+			res.json({result: 0, err: err.message})
+		} else {
+
+			let dt = {
+				T1: data.T1,
+				T2: data.T2,
+				T3: data.T3,
+				T4: data.T4,
+				H1: data.B1,
+				H2: data.B2,
+				updated_at: data.timestamp
+			}
+			res.json({result: 1, data: dt})
+		}
+	});	
+};
+
+
+module.exports.getDataRandom = async function(req, res) {
 	TempHum.findOne(function (err, data) {
 		if (err) {
 			res.json({result: 0, err: err.message})
@@ -39,8 +63,6 @@ module.exports.postData = async function(req, res) {
 		}
 	});	
 };
-
-
 
 // module.exports.getAdd = function(req, res) {
 // 	Station.find().then(function(stations){
