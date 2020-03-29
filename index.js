@@ -21,12 +21,10 @@ app.use((req, res, next) => {
 //Khai bao api route
 var apiHistoryRouter = require('./api/routes/history.route');
 var apiTempHumRouter = require('./api/routes/temphum.route');
-
 //==================
 //--use api route
 app.use('/api/history', apiHistoryRouter);
 app.use('/api/temphum', apiTempHumRouter);
-
 
 app.use(bodyParser.json()) // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
@@ -43,6 +41,12 @@ app.use(express.static('public'));
 app.set('views', './views');
 
 //app.use(express.static(path.join(__dirname, 'public')));
+
+
+var apiUserRouter = require('./api/routes/user.route');
+app.use('/api/user', apiUserRouter);
+
+
 
 // Khai báo Router --------------------------------------------------
 var userRouter = require('./routes/user.route');
