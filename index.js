@@ -67,7 +67,9 @@ var developerTempHumRouter = require('./routes/developer/temphum.route');
 
 var mongoose = require('mongoose');
 //mongoose.connect(process.env.MONGO_URL, { useNewUrlParser: true, useFindAndModify: false, useUnifiedTopology: true});
-mongoose.connect(process.env.MONGO_URL, { useNewUrlParser: true, useUnifiedTopology: true});
+// mongoose.connect(process.env.MONGO_URL, { useNewUrlParser: true, useUnifiedTopology: true});
+mongoose.connect(process.env.MONGO_URL, {user: process.env.MONGO_USER, pass: process.env.MONGO_PASS, useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: true});
+
 
 var middleware = require('./middlewares/auth.middleware');
 
