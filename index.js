@@ -59,6 +59,7 @@ var realRouter = require('./routes/real.route');
 var powerRouter = require('./routes/power.route');
 var demoRouter = require('./routes/demo.route');
 var inverterRouter = require('./routes/inverter.route');
+var flexyRouter = require('./routes/flexy.route');
 
 var developerIntroRouter = require('./routes/developer/introduce.route');
 var developerTempHumRouter = require('./routes/developer/temphum.route');
@@ -87,6 +88,8 @@ app.use('/real', realRouter);
 app.use('/power', powerRouter);
 app.use('/demo', demoRouter);
 app.use('/inverter', inverterRouter);
+app.use('/flexy', flexyRouter);
+
 
 app.group("/developer", (router) => {
   router.use('/introduce', developerIntroRouter);
@@ -434,6 +437,13 @@ io.on('connection', function(socket){
     console.log(JsonData)
     io.emit('ProductText', JsonData);
   });
+
+
+  socket.on('Flexy', function(msg) {
+  	let json_data = JSON.parse(msg);
+  	console.log(json_data);
+  	io.emit('FlexyWeb', json_data); 
+  })
 
 
   // socket.on('Product', function(msg){
