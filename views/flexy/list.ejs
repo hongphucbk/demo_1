@@ -108,7 +108,7 @@
   //var socket = io("http://127.0.0.1:3001");
   socket.on("FlexyWeb", function(data)
   {
-    console.log(data.HostName == 'Sever_'+site_id);
+    //console.log(data.HostName == 'Sever_'+site_id);
     if (data.HostName == 'Sever_20') {
       if (data.TagName == "tag1") {
         document.getElementById("tag1").innerHTML = data.Value.toFixed(2);

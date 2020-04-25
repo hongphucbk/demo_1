@@ -441,7 +441,7 @@ io.on('connection', function(socket){
 
   socket.on('Flexy', function(msg) {
   	let json_data = JSON.parse(msg);
-  	console.log(json_data);
+  	//console.log(json_data);
   	io.emit('FlexyWeb', json_data); 
   })
 
