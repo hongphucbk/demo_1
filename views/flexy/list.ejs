@@ -109,7 +109,8 @@
   socket.on("FlexyWeb", function(data)
   {
     //console.log(data.HostName == 'Sever_'+site_id);
-    if (data.HostName == 'Sever_20') {
+    let svr = 'Sever_' + site_id;
+    if (data.HostName === svr) {
       if (data.TagName == "tag1") {
         document.getElementById("tag1").innerHTML = data.Value.toFixed(2);
       }
