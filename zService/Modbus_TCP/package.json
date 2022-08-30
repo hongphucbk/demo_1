@@ -16,7 +16,7 @@
     "modbusjs": "0.0.11",
     "mqtt": "^3.0.0",
     "node-modbus": "^4.3.1",
-    "node-opcua": "0.0.61"
+    "node-opcua": "2.74.0"
   },
   "devDependencies": {}
 }
